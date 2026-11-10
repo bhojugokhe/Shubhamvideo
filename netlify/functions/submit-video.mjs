@@ -17,11 +17,30 @@ export default async (request) => {
 
   try {
     const body = await request.json();
-    const prompt = body.prompt?.trim();
 
-    if (!prompt) {
+    const prompt = body.prompt?.trim();
+    const duration = Number(body.duration || 5);
+    const aspectRatio = body.aspect_ratio || "16:9";
+
+    if (!prompt || prompt.length > 5000) {
       return Response.json(
-        { error: "Please enter a prompt" },
+        { error: "Please enter a valid prompt (max 5000 characters)" },
+        { status: 400 }
+      );
+    }
+
+    if (!Number.isInteger(duration) || duration < 2 || duration > 15) {
+      return Response.json(
+        { error: "Duration must be between 2 and 15 seconds" },
+        { status: 400 }
+      );
+    }
+
+    const allowedRatios = ["16:9", "9:16", "1:1", "4:3", "3:4"];
+
+    if (!allowedRatios.includes(aspectRatio)) {
+      return Response.json(
+        { error: "Invalid aspect ratio" },
         { status: 400 }
       );
     }
@@ -33,7 +52,11 @@ export default async (request) => {
     const result = await fal.queue.submit(
       "fal-ai/wan/v2.7/text-to-video",
       {
-        input: { prompt }
+        input: {
+          prompt,
+          duration,
+          aspect_ratio: aspectRatio
+        }
       }
     );
 
