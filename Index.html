@@ -3,123 +3,305 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#d9f7f3">
-<title>SHUBHAM.COM — AI Video Studio</title>
+
+<title>SHUBHAM.COM | AI Video Studio</title>
+
+<meta name="description" content="Turn your imagination into amazing AI videos.">
+
 <style>
-:root{--cyan:#12c8c4;--cyan-dark:#087f80;--cream:#f4ead8;--paper:#fffaf1;--ink:#173536;--muted:#617575;--line:#d8e7df;--dark:#102c2d}
-*{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Arial,sans-serif;color:var(--ink);background:linear-gradient(135deg,#e9fbf7 0%,#f7efdf 100%);min-height:100vh}
-header{display:flex;align-items:center;justify-content:space-between;padding:20px clamp(18px,5vw,64px);border-bottom:1px solid rgba(8,127,128,.14);background:rgba(255,250,241,.72);backdrop-filter:blur(12px);position:sticky;top:0;z-index:5}
-.logo{font-weight:900;letter-spacing:-1px;font-size:24px}.logo span{color:var(--cyan-dark)}.tag{font-size:12px;color:var(--muted);margin-top:3px}
-.nav{display:flex;gap:20px;align-items:center;font-size:14px;color:var(--muted)}.nav a{color:inherit;text-decoration:none}
-.pill{background:var(--dark);color:white;padding:10px 16px;border-radius:999px;font-weight:700;font-size:13px}
-main{max-width:1160px;margin:0 auto;padding:54px 20px 70px}
-.hero{text-align:center;margin-bottom:34px}.eyebrow{display:inline-flex;gap:8px;align-items:center;padding:8px 13px;border:1px solid #bce8df;border-radius:999px;background:#ffffff9c;color:var(--cyan-dark);font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
-h1{font-size:clamp(38px,7vw,68px);line-height:1.02;letter-spacing:-.055em;margin:18px 0 14px}.gradient{color:var(--cyan-dark)}.hero p{max-width:620px;margin:0 auto;color:var(--muted);font-size:16px;line-height:1.65}
-.studio{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr);gap:20px;align-items:stretch}
-.panel{background:rgba(255,250,241,.94);border:1px solid var(--line);border-radius:24px;padding:24px;box-shadow:0 18px 55px rgba(23,53,54,.08)}
-.panel h2{font-size:19px;margin:0 0 6px;letter-spacing:-.02em}.sub{font-size:13px;color:var(--muted);margin:0 0 20px}
-.modes{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:18px}
-.mode{border:1px solid var(--line);background:#fffdf8;border-radius:14px;padding:13px 8px;text-align:center;font-weight:750;color:var(--muted);cursor:pointer}
-.mode.active{background:#d9f7f3;border-color:var(--cyan);color:var(--cyan-dark);box-shadow:inset 0 0 0 1px var(--cyan)}
-.mode small{display:block;font-size:11px;font-weight:500;margin-top:4px}
-label{display:block;font-size:13px;font-weight:800;margin:16px 0 8px}
-textarea{width:100%;min-height:128px;resize:vertical;border:1px solid var(--line);border-radius:15px;padding:14px;background:#fffdf8;color:var(--ink);font:inherit;outline:none}
-textarea:focus{border-color:var(--cyan);box-shadow:0 0 0 3px #12c8c426}
-.upload{display:none;border:1.5px dashed #9dcfc6;background:#f3fbf7;border-radius:15px;padding:18px;text-align:center;color:var(--muted);font-size:13px}
-.upload input{max-width:100%;margin-top:10px}
-.options{display:grid;grid-template-columns:1fr 1fr;gap:14px}.select{width:100%;border:1px solid var(--line);border-radius:12px;background:#fffdf8;padding:12px;color:var(--ink);font:inherit}
-.ratio{border:1px solid var(--line);background:#f1f7f1;border-radius:12px;padding:12px;font-weight:750;font-size:14px}
-.primary{width:100%;border:0;border-radius:14px;margin-top:20px;padding:15px 18px;background:linear-gradient(100deg,var(--cyan),#8adcc4);color:#103637;font-size:15px;font-weight:900;cursor:pointer;box-shadow:0 8px 20px #12c8c433}
-.note{font-size:11px;line-height:1.5;color:var(--muted);margin:12px 2px 0}
-.preview{display:flex;flex-direction:column}.previewbox{aspect-ratio:16/9;border-radius:17px;background:radial-gradient(circle at 70% 20%,#1b7775,#123d40 48%,#0c2729);display:flex;align-items:center;justify-content:center;color:#d5f8ed;position:relative;overflow:hidden}
-.previewbox:before,.previewbox:after{content:"";position:absolute;border:1px solid #a4f2df30;border-radius:50%;width:220px;height:220px}.previewbox:after{width:310px;height:310px}
-.play{width:54px;height:54px;border-radius:50%;background:#ffffff20;border:1px solid #ffffff65;display:grid;place-items:center;font-size:20px;z-index:1}
-.preview-caption{font-size:12px;color:#d4eee7;position:absolute;bottom:13px;z-index:1}
-.preview h3{margin:20px 0 7px;font-size:17px}.preview p{font-size:13px;color:var(--muted);line-height:1.6;margin:0}
-.features{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px}.feature{padding:17px;border:1px solid var(--line);border-radius:17px;background:#ffffffa6}.feature b{display:block;font-size:14px;margin-bottom:5px}.feature span{font-size:12px;color:var(--muted);line-height:1.5}
-footer{text-align:center;padding:20px;color:var(--muted);font-size:12px}
-.status{display:none;margin-top:12px;padding:12px;border-radius:12px;background:#e8f8f1;color:#17635b;font-size:13px;line-height:1.5}
-@media(max-width:760px){.studio{grid-template-columns:1fr}.nav a{display:none}main{padding-top:36px}.features{grid-template-columns:1fr}.panel{padding:19px}}
-@media(max-width:420px){.options{grid-template-columns:1fr}.modes{gap:6px}.mode{font-size:12px}}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #fff9ef;
+    color: #173b4a;
+}
+
+header {
+    padding: 22px 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    border-bottom: 2px solid #e4f4f0;
+}
+
+.logo {
+    font-size: 27px;
+    font-weight: 900;
+    color: #087f8c;
+}
+
+.nav {
+    color: #173b4a;
+    font-weight: bold;
+}
+
+.hero {
+    min-height: 650px;
+    padding: 80px 20px;
+    text-align: center;
+    background: linear-gradient(135deg, #b8f3ed, #fff0cf, #e5d5ff);
+}
+
+.tag {
+    display: inline-block;
+    padding: 10px 20px;
+    background: white;
+    border-radius: 30px;
+    color: #087f8c;
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+
+h1 {
+    font-size: clamp(38px, 7vw, 65px);
+    font-weight: 900;
+    margin-bottom: 20px;
+}
+
+.highlight {
+    color: #ed6b47;
+}
+
+.subtitle {
+    max-width: 650px;
+    margin: auto;
+    line-height: 1.7;
+    color: #526b72;
+    font-size: 17px;
+}
+
+.generator {
+    max-width: 760px;
+    margin: 40px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 22px;
+    box-shadow: 0 12px 40px #164b5015;
+    text-align: left;
+}
+
+.generator h2 {
+    margin-bottom: 20px;
+}
+
+textarea, select {
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    border: 1px solid #d6e5e3;
+    border-radius: 12px;
+    font-size: 15px;
+    background: #fbfdfc;
+}
+
+textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.upload {
+    display: block;
+    margin: 15px 0;
+    padding: 18px;
+    border: 2px dashed #55bdb5;
+    border-radius: 12px;
+    text-align: center;
+    color: #087f8c;
+    cursor: pointer;
+}
+
+.options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.generate {
+    width: 100%;
+    padding: 17px;
+    background: linear-gradient(90deg, #087f8c, #ed6b47);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 17px;
+    font-weight: bold;
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.coming {
+    text-align: center;
+    margin-top: 12px;
+    color: #ed6b47;
+    font-size: 13px;
+}
+
+.features {
+    padding: 60px 8%;
+    text-align: center;
+}
+
+.features h2 {
+    font-size: 32px;
+    margin-bottom: 30px;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.feature {
+    background: white;
+    padding: 28px;
+    border-radius: 18px;
+    box-shadow: 0 5px 20px #173b4a10;
+}
+
+.feature h3 {
+    margin: 12px 0;
+    color: #087f8c;
+}
+
+footer {
+    padding: 30px;
+    text-align: center;
+    background: #173b4a;
+    color: white;
+}
+
+@media(max-width:600px) {
+    header {
+        padding: 18px;
+    }
+    .options {
+        grid-template-columns: 1fr;
+    }
+    .generator {
+        padding: 20px;
+    }
+}
 </style>
 </head>
+
 <body>
+
 <header>
-  <div><div class="logo">SHUBHAM<span>.COM</span></div><div class="tag">Your AI Video Studio</div></div>
-  <nav class="nav"><a href="#studio">Create</a><a href="#features">Features</a><span class="pill">BETA STUDIO</span></nav>
+    <div class="logo">SHUBHAM.COM</div>
+    <div class="nav">AI VIDEO STUDIO</div>
 </header>
-<main>
-  <section class="hero">
-    <div class="eyebrow">✦ Create with AI</div>
-    <h1>Your ideas.<br><span class="gradient">Into moving stories.</span></h1>
-    <p>Turn a text idea, an image, or a voice prompt into a video concept. Choose your format and duration in one simple studio.</p>
-  </section>
 
-  <section class="studio" id="studio">
-    <div class="panel">
-      <h2>Create a video</h2><p class="sub">Choose how you want to begin.</p>
-      <div class="modes">
-        <button class="mode active" data-mode="text">✍️ Text<small>Describe your idea</small></button>
-        <button class="mode" data-mode="image">🖼️ Image<small>Start with a picture</small></button>
-        <button class="mode" data-mode="voice">🎙️ Voice<small>Speak your prompt</small></button>
-      </div>
-      <label for="prompt">Your prompt</label>
-      <textarea id="prompt" placeholder="Example: A peaceful cinematic view of a mountain lake at sunrise, soft golden light, slow camera movement..."></textarea>
-      <div class="upload" id="uploadBox">Upload an image to use as your starting frame<br><input id="imageFile" type="file" accept="image/*"></div>
-      <div class="options">
-        <div><label for="duration">Video duration</label><select class="select" id="duration"><option>30 seconds</option><option>1 minute</option><option>2 minutes</option><option>5 minutes</option></select></div>
-        <div><label>Aspect ratio</label><div class="ratio">▭ &nbsp; 16:9 Landscape</div></div>
-      </div>
-      <button class="primary" id="generate">Generate video concept ↗</button>
-      <div class="status" id="status" role="status"></div>
-      <p class="note">Prototype stage: this page is the design and input interface. Real video generation will be connected securely through a server/API in the next build. Longer videos may be created from multiple clips and can cost more.</p>
+<section class="hero">
+
+    <div class="tag">✨ NEXT GENERATION AI STUDIO</div>
+
+    <h1>
+        Make Every Idea<br>
+        <span class="highlight">a Visual</span>
+    </h1>
+
+    <p class="subtitle">
+        Transform your imagination into stunning videos.
+        Create your next masterpiece with AI-powered creativity.
+    </p>
+
+    <div class="generator">
+
+        <h2>🎬 Create Your Video</h2>
+
+        <textarea placeholder="Describe your dream video here..."></textarea>
+
+        <label class="upload">
+            🖼️ Upload Image (Image to Video)
+            <input type="file" accept="image/*" hidden>
+        </label>
+
+        <div class="options">
+
+            <div>
+                <label>Video Duration</label>
+                <select>
+                    <option>30 Seconds</option>
+                    <option>1 Minute</option>
+                    <option>5 Minutes</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Aspect Ratio</label>
+                <select>
+                    <option>Landscape 16:9</option>
+                    <option>Portrait 9:16</option>
+                    <option>Square 1:1</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Video Style</label>
+                <select>
+                    <option>Cinematic</option>
+                    <option>Realistic</option>
+                    <option>Animation</option>
+                    <option>3D</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Voice</label>
+                <select>
+                    <option>Hindi Voice</option>
+                    <option>English Voice</option>
+                    <option>No Voice</option>
+                </select>
+            </div>
+
+        </div>
+
+        <button class="generate" disabled>
+            ✨ Generate Video
+        </button>
+
+        <p class="coming">Coming Soon — AI Generation Setup Pending</p>
+
     </div>
-    <aside class="panel preview">
-      <h2>Studio preview</h2><p class="sub">Your generated video will appear here.</p>
-      <div class="previewbox"><div class="play">▶</div><div class="preview-caption">16:9 VIDEO PREVIEW</div></div>
-      <h3>Make every idea visual.</h3>
-      <p>Start with a clear description. Later, the connected AI engine can turn your prompt or image into a downloadable video.</p>
-    </aside>
-  </section>
+</section>
 
-  <section class="features" id="features">
-    <div class="feature"><b>✦ Text to Video</b><span>Describe a scene and shape your video idea with words.</span></div>
-    <div class="feature"><b>✦ Image to Video</b><span>Use an image as the starting point for motion.</span></div>
-    <div class="feature"><b>✦ Voice Prompts</b><span>Speak your idea instead of typing it.</span></div>
-  </section>
-</main>
-<footer>© 2026 SHUBHAM.COM · Built for creative ideas</footer>
-<script>
-const modeButtons = document.querySelectorAll('.mode');
-const uploadBox = document.getElementById('uploadBox');
-const prompt = document.getElementById('prompt');
-const statusBox = document.getElementById('status');
-let currentMode = 'text';
-modeButtons.forEach(btn => btn.addEventListener('click', () => {
-  modeButtons.forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  currentMode = btn.dataset.mode;
-  uploadBox.style.display = currentMode === 'image' ? 'block' : 'none';
-  prompt.placeholder = currentMode === 'voice'
-    ? 'Tap the microphone on your keyboard and speak your video idea...'
-    : currentMode === 'image'
-    ? 'Optional: describe how you want your uploaded image to move...'
-    : 'Example: A peaceful cinematic view of a mountain lake at sunrise...';
-  statusBox.style.display = 'none';
-}));
-document.getElementById('generate').addEventListener('click', () => {
-  const text = prompt.value.trim();
-  const file = document.getElementById('imageFile').files[0];
-  if (currentMode === 'image' && !file) {
-    statusBox.textContent = 'Please choose an image first. The real AI generation connection will be added in the next development step.';
-  } else if (!text && currentMode !== 'image') {
-    statusBox.textContent = 'Please enter or dictate a prompt first.';
-  } else {
-    const duration = document.getElementById('duration').value;
-    statusBox.textContent = `Your ${currentMode === 'text' ? 'text' : currentMode === 'image' ? 'image' : 'voice'}-based request is ready. Selected duration: ${duration}. This prototype does not generate a video yet; the secure AI video API still needs to be connected.`;
-  }
-  statusBox.style.display = 'block';
-});
-</script>
+<section class="features">
+
+    <h2>Explore AI Creativity</h2>
+
+    <div class="feature-grid">
+
+        <div class="feature">
+            <h3>🎬 Text to Video</h3>
+            <p>Turn your text ideas into videos.</p>
+        </div>
+
+        <div class="feature">
+            <h3>🖼️ Image to Video</h3>
+            <p>Bring your images to life.</p>
+        </div>
+
+        <div class="feature">
+            <h3>🎙️ AI Voice</h3>
+            <p>Add voice to your creative videos.</p>
+        </div>
+
+    </div>
+</section>
+
+<footer>
+    <p>© 2026 SHUBHAM.COM | AI Video Studio</p>
+    <p>Make Every Idea a Visual.</p>
+</footer>
+
 </body>
 </html>
