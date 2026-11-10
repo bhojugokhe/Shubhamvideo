@@ -1,307 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHUBHAM.COM | AI Video Studio</title>
 
-<title>SHUBHAM.COM | AI Video Studio</title>
+    <style>
+        :root {
+            --bg-sand: #fdfbf7;
+            --card-sand: #f4ede2;
+            --text-dark: #2d3748;
+            --text-muted: #718096;
+            --accent-cyan: #06b6d4;
+            --border-color: #e2d9cc;
+        }
 
-<meta name="description" content="Turn your imagination into amazing AI videos.">
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont,
+            "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
 
-<style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+        body {
+            background: var(--bg-sand);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 1rem;
+        }
 
-body {
-    font-family: Arial, sans-serif;
-    background: #fff9ef;
-    color: #173b4a;
-}
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 600px;
+            margin: auto;
+            text-align: center;
+        }
 
-header {
-    padding: 22px 8%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: white;
-    border-bottom: 2px solid #e4f4f0;
-}
+        /* Logo and Brand */
+        .brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
 
-.logo {
-    font-size: 27px;
-    font-weight: 900;
-    color: #087f8c;
-}
+        .brand-logo {
+            width: 48px;
+            height: 48px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #06b6d4, #2563eb);
+            color: white;
+            font-size: 30px;
+            font-weight: 800;
+            box-shadow: 0 4px 12px rgba(6, 182, 212, 0.25);
+        }
 
-.nav {
-    color: #173b4a;
-    font-weight: bold;
-}
+        h1 {
+            font-size: 2.4rem;
+            letter-spacing: 0.04em;
+            color: var(--text-dark);
+        }
 
-.hero {
-    min-height: 650px;
-    padding: 80px 20px;
-    text-align: center;
-    background: linear-gradient(135deg, #b8f3ed, #fff0cf, #e5d5ff);
-}
+        h1 span {
+            color: var(--accent-cyan);
+        }
 
-.tag {
-    display: inline-block;
-    padding: 10px 20px;
-    background: white;
-    border-radius: 30px;
-    color: #087f8c;
-    font-weight: bold;
-    margin-bottom: 25px;
-}
+        p.tagline {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+        }
 
-h1 {
-    font-size: clamp(38px, 7vw, 65px);
-    font-weight: 900;
-    margin-bottom: 20px;
-}
+        .creator-box {
+            width: 100%;
+            background-color: var(--card-sand);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+        }
 
-.highlight {
-    color: #ed6b47;
-}
+        input[type="text"] {
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            font-size: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: white;
+            color: var(--text-dark);
+            outline: none;
+        }
 
-.subtitle {
-    max-width: 650px;
-    margin: auto;
-    line-height: 1.7;
-    color: #526b72;
-    font-size: 17px;
-}
+        input[type="text"]:focus {
+            border-color: var(--accent-cyan);
+        }
 
-.generator {
-    max-width: 760px;
-    margin: 40px auto;
-    padding: 30px;
-    background: white;
-    border-radius: 22px;
-    box-shadow: 0 12px 40px #164b5015;
-    text-align: left;
-}
+        button {
+            padding: 0.9rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            background-color: var(--border-color);
+            color: var(--text-muted);
+            cursor: not-allowed;
+        }
 
-.generator h2 {
-    margin-bottom: 20px;
-}
+        footer {
+            margin-top: 2rem;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            text-align: center;
+        }
 
-textarea, select {
-    width: 100%;
-    padding: 15px;
-    margin: 10px 0;
-    border: 1px solid #d6e5e3;
-    border-radius: 12px;
-    font-size: 15px;
-    background: #fbfdfc;
-}
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem;
+            }
 
-textarea {
-    min-height: 120px;
-    resize: vertical;
-}
-
-.upload {
-    display: block;
-    margin: 15px 0;
-    padding: 18px;
-    border: 2px dashed #55bdb5;
-    border-radius: 12px;
-    text-align: center;
-    color: #087f8c;
-    cursor: pointer;
-}
-
-.options {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-    margin: 15px 0;
-}
-
-.generate {
-    width: 100%;
-    padding: 17px;
-    background: linear-gradient(90deg, #087f8c, #ed6b47);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-size: 17px;
-    font-weight: bold;
-    opacity: 0.65;
-    cursor: not-allowed;
-}
-
-.coming {
-    text-align: center;
-    margin-top: 12px;
-    color: #ed6b47;
-    font-size: 13px;
-}
-
-.features {
-    padding: 60px 8%;
-    text-align: center;
-}
-
-.features h2 {
-    font-size: 32px;
-    margin-bottom: 30px;
-}
-
-.feature-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-}
-
-.feature {
-    background: white;
-    padding: 28px;
-    border-radius: 18px;
-    box-shadow: 0 5px 20px #173b4a10;
-}
-
-.feature h3 {
-    margin: 12px 0;
-    color: #087f8c;
-}
-
-footer {
-    padding: 30px;
-    text-align: center;
-    background: #173b4a;
-    color: white;
-}
-
-@media(max-width:600px) {
-    header {
-        padding: 18px;
-    }
-    .options {
-        grid-template-columns: 1fr;
-    }
-    .generator {
-        padding: 20px;
-    }
-}
-</style>
+            .brand-logo {
+                width: 40px;
+                height: 40px;
+                font-size: 25px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<header>
-    <div class="logo">SHUBHAM.COM</div>
-    <div class="nav">AI VIDEO STUDIO</div>
-</header>
-
-<section class="hero">
-
-    <div class="tag">✨ NEXT GENERATION AI STUDIO</div>
-
-    <h1>
-        Make Every Idea<br>
-        <span class="highlight">a Visual</span>
-    </h1>
-
-    <p class="subtitle">
-        Transform your imagination into stunning videos.
-        Create your next masterpiece with AI-powered creativity.
-    </p>
-
-    <div class="generator">
-
-        <h2>🎬 Create Your Video</h2>
-
-        <textarea placeholder="Describe your dream video here..."></textarea>
-
-        <label class="upload">
-            🖼️ Upload Image (Image to Video)
-            <input type="file" accept="image/*" hidden>
-        </label>
-
-        <div class="options">
-
-            <div>
-                <label>Video Duration</label>
-                <select>
-                    <option>30 Seconds</option>
-                    <option>1 Minute</option>
-                    <option>5 Minutes</option>
-                </select>
-            </div>
-
-            <div>
-                <label>Aspect Ratio</label>
-                <select>
-                    <option>Landscape 16:9</option>
-                    <option>Portrait 9:16</option>
-                    <option>Square 1:1</option>
-                </select>
-            </div>
-
-            <div>
-                <label>Video Style</label>
-                <select>
-                    <option>Cinematic</option>
-                    <option>Realistic</option>
-                    <option>Animation</option>
-                    <option>3D</option>
-                </select>
-            </div>
-
-            <div>
-                <label>Voice</label>
-                <select>
-                    <option>Hindi Voice</option>
-                    <option>English Voice</option>
-                    <option>No Voice</option>
-                </select>
-            </div>
-
+    <main>
+        <div class="brand">
+            <span class="brand-logo">S</span>
+            <h1>SHUBHAM<span>.COM</span></h1>
         </div>
 
-        <button class="generate" disabled>
-            ✨ Generate Video
-        </button>
+        <p class="tagline">
+            Make Every Idea a Visual
+        </p>
 
-        <p class="coming">Coming Soon — AI Generation Setup Pending</p>
+        <div class="creator-box">
+            <input
+                type="text"
+                placeholder="Enter your prompt to create video..."
+                aria-label="Prompt Input"
+            >
 
-    </div>
-</section>
-
-<section class="features">
-
-    <h2>Explore AI Creativity</h2>
-
-    <div class="feature-grid">
-
-        <div class="feature">
-            <h3>🎬 Text to Video</h3>
-            <p>Turn your text ideas into videos.</p>
+            <button disabled>
+                Coming Soon
+            </button>
         </div>
+    </main>
 
-        <div class="feature">
-            <h3>🖼️ Image to Video</h3>
-            <p>Bring your images to life.</p>
-        </div>
-
-        <div class="feature">
-            <h3>🎙️ AI Voice</h3>
-            <p>Add voice to your creative videos.</p>
-        </div>
-
-    </div>
-</section>
-
-<footer>
-    <p>© 2026 SHUBHAM.COM | AI Video Studio</p>
-    <p>Make Every Idea a Visual.</p>
-</footer>
+    <footer>
+        &copy; 2026 SHUBHAM.COM — All rights reserved.
+    </footer>
 
 </body>
 </html>
