@@ -3,352 +3,219 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#fff8f1">
   <title>Shubham AI Studio</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;1,600;1,700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --cream: #fff8f0;
-      --white: #fffdf9;
-      --red: #df2928;
-      --coral: #ff705b;
-      --ink: #29231f;
-      --muted: #897d73;
-      --line: #f0e3d8;
+      --cream: #fff8f1;
+      --paper: #fffdf9;
+      --red: #df2028;
+      --red-dark: #bd111c;
+      --ink: #171513;
+      --muted: #82776e;
+      --line: #f0e5dc;
+      --sidebar-width: 232px;
     }
-
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      background: var(--cream);
-      color: var(--ink);
-      font-family: "DM Sans", sans-serif;
-    }
+    body { margin: 0; background: var(--cream); color: var(--ink); font-family: "DM Sans", sans-serif; }
     button, input, textarea, select { font: inherit; }
     button { cursor: pointer; }
-    img { max-width: 100%; }
-    a { color: var(--red); }
-
+    button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 3px solid #df202855; outline-offset: 2px; }
     .app { display: flex; min-height: 100vh; }
+
+    /* Sidebar */
     .sidebar {
-      width: 225px;
-      background: #fffaf4;
-      border-right: 1px solid var(--line);
-      padding: 20px 14px;
-      display: flex;
-      flex-direction: column;
-      flex-shrink: 0;
+      width: var(--sidebar-width); flex: 0 0 var(--sidebar-width); min-height: 100vh;
+      display: flex; flex-direction: column; padding: 18px 17px 20px;
+      background: #fff9f2; border-right: 1px solid #f3e8df;
     }
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 2px 8px 25px;
-    }
-    .logo {
-      width: 46px;
-      height: 46px;
-      border-radius: 15px;
-      background: linear-gradient(145deg, #ff8068, #c90020);
-      display: grid;
-      place-items: center;
-      color: white;
-      font: 800 31px Poppins;
-      box-shadow: 0 6px 15px #e52b2630;
-    }
-    .brand-name {
-      font: 800 16px Poppins;
-      line-height: 1.15;
-    }
+    .brand { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 2px 6px 21px; text-align: center; }
+    .brand-mark { width: 92px; height: 88px; display: block; margin-bottom: 3px; }
+    .brand-name { font: 800 25px/1.05 Poppins, sans-serif; letter-spacing: -1.2px; }
     .brand-name span { display: block; color: var(--red); }
-    .menu-label {
-      color: #a99a8e;
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: 1.3px;
-      padding: 12px;
-    }
+    .menu-label { color: #aa9b90; font-size: 10px; font-weight: 800; letter-spacing: 1.4px; padding: 4px 12px 9px; }
     .nav {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      border: 0;
-      background: transparent;
-      padding: 11px 12px;
-      border-radius: 11px;
-      text-align: left;
-      color: #655b53;
-      font-size: 13px;
-      font-weight: 700;
-      margin: 2px 0;
+      width: 100%; min-height: 45px; display: flex; align-items: center; gap: 13px;
+      border: 0; border-radius: 12px; background: transparent; padding: 10px 12px;
+      color: #29231f; text-align: left; font-size: 13px; font-weight: 700; margin: 2px 0;
+      transition: background .18s ease, color .18s ease, transform .18s ease;
     }
-    .nav .ico { width: 19px; font-size: 16px; text-align: center; }
-    .nav:hover, .nav.active {
-      background: linear-gradient(100deg, #e52b27, #ff705b);
-      color: white;
-      box-shadow: 0 5px 12px #e52b2625;
-    }
+    .nav .ico { width: 20px; flex: 0 0 20px; font-size: 17px; text-align: center; }
+    .nav:hover { background: #fff0e9; transform: translateX(2px); }
+    .nav.active, .nav.active:hover { color: #fff; background: linear-gradient(105deg, #ed302c, #cf101d); box-shadow: 0 6px 14px #db242b2a; }
     .upgrade {
-      margin-top: auto;
-      padding: 15px 12px;
-      border-radius: 15px;
-      background: linear-gradient(145deg, #fff0d4, #ffe0bd);
-      text-align: center;
-      font-size: 12px;
+      position: relative; overflow: hidden; margin-top: auto; padding: 16px 12px 15px;
+      border: 1px solid #ffe6bc; border-radius: 17px;
+      background: linear-gradient(145deg, #fff1d2, #ffe2b7); text-align: center; font-size: 12px;
     }
-    .upgrade button {
-      border: 0;
-      background: var(--red);
-      color: white;
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-weight: 700;
-      margin-top: 8px;
-    }
-    .main { flex: 1; min-width: 0; padding: 19px 24px 45px; }
-    .topbar {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 17px;
-    }
-    .search {
-      flex: 1;
-      background: white;
-      border: 1px solid var(--line);
-      border-radius: 30px;
-      padding: 12px 18px;
-      outline: none;
-    }
-    .round {
-      width: 41px;
-      height: 41px;
-      border: 1px solid var(--line);
-      border-radius: 50%;
-      background: white;
-    }
+    .upgrade::after { content: ""; position: absolute; width: 95px; height: 95px; border: 14px solid #ffbd5140; border-radius: 50%; right: -53px; bottom: -61px; }
+    .upgrade .crown { font-size: 29px; line-height: 1.1; color: #e99112; }
+    .upgrade strong { display: block; font-size: 14px; margin-top: 5px; }
+    .upgrade p { line-height: 1.4; margin: 6px 0 10px; }
+    .upgrade button { position: relative; z-index: 1; border: 0; border-radius: 22px; background: linear-gradient(100deg, #ed302c, #c90d1d); color: white; padding: 9px 18px; font-size: 12px; font-weight: 800; box-shadow: 0 4px 9px #bd111c30; }
+
+    /* Main header and home */
+    .main { flex: 1; min-width: 0; padding: 14px 22px 40px; }
+    .topbar { display: flex; align-items: center; gap: 15px; margin: 0 0 15px; }
+    .search-wrap { position: relative; flex: 1; }
+    .search-icon { position: absolute; left: 17px; top: 50%; transform: translateY(-50%); font-size: 22px; color: #3a3836; pointer-events: none; }
+    .search { width: 100%; height: 45px; padding: 0 18px 0 48px; border: 1px solid #f0e5dc; border-radius: 28px; background: #fffdfa; box-shadow: 0 2px 8px #553c2410; outline: 0; font-size: 14px; }
+    .search:focus { border-color: #e8b0a7; }
+    .round { position: relative; width: 42px; height: 42px; flex: 0 0 42px; display: grid; place-items: center; border: 0; border-radius: 50%; background: transparent; color: #211b19; font-size: 20px; }
+    .notification-count { position: absolute; top: 0; right: 0; width: 18px; height: 18px; display: grid; place-items: center; border-radius: 50%; background: var(--red); color: #fff; font-size: 10px; font-weight: 800; }
+    .profile-button { width: 42px; height: 42px; padding: 0; border: 2px solid #fff; border-radius: 50%; overflow: hidden; background: #f2d1bd; box-shadow: 0 1px 5px #0002; }
+    .profile-button img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .profile-chevron { font-size: 13px; margin-left: -10px; }
+    .mobile-menu { display: none; }
     .hero {
-      min-height: 205px;
-      border-radius: 19px;
-      overflow: hidden;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      background: linear-gradient(110deg, #ffd8c5, #fff0dc 55%, #f8c5a7);
-      margin-bottom: 17px;
+      position: relative; min-height: 286px; display: grid; grid-template-columns: 1.08fr .92fr; overflow: hidden;
+      border-radius: 16px; margin-bottom: 14px; isolation: isolate;
+      background: #ffd9c6;
+      box-shadow: 0 4px 14px #764a3012;
     }
     .hero-art {
-      display: grid;
-      place-items: center;
-      font-size: 85px;
-      min-height: 205px;
-      background: radial-gradient(ellipse at 50% 70%, #fff1cb, #ffc9a8 65%, transparent 66%);
+      position: absolute; z-index: -1; inset: 0;
+      background-image: linear-gradient(90deg, transparent 39%, #fff0df45 57%, #fff1e4 100%), url("https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=1500&q=85");
+      background-position: center, center 47%; background-size: cover;
     }
-    .hero-copy { padding: 25px 22px; align-self: center; }
-    .hero-copy h1 {
-      font: 800 clamp(22px, 3vw, 35px) Poppins;
-      margin: 0;
-      line-height: 1.2;
-    }
+    .hero-art::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, #26150905 0%, #fff1e400 45%, #fff1e5d9 100%); }
+    .hero-copy { grid-column: 2; align-self: center; padding: 25px 28px 25px 7px; text-align: center; }
+    .hero-copy h1 { font: 800 clamp(28px, 3.1vw, 45px)/1.08 Poppins, sans-serif; letter-spacing: -1.8px; margin: 0; white-space: nowrap; }
     .hero-copy h1 span { color: var(--red); }
-    .tagline { font: italic 600 18px Poppins; margin: 5px 0 10px; }
-    .hero-copy p { font-size: 12px; color: #69564c; margin: 0 0 13px; }
-    .primary {
-      background: linear-gradient(100deg, #d91e25, #ff6953);
-      border: 0;
-      border-radius: 25px;
-      color: white;
-      font-weight: 800;
-      padding: 11px 21px;
-      box-shadow: 0 5px 14px #d92b2730;
-    }
-    .primary:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
-    }
-    .quick-tools {
-      display: grid;
-      grid-template-columns: repeat(6, minmax(0, 1fr));
-      gap: 9px;
-      margin: 17px 0 24px;
-    }
-    .tool {
-      border: 1px solid var(--line);
-      border-radius: 13px;
-      padding: 13px 4px;
-      background: white;
-      text-align: center;
-      font-weight: 800;
-      font-size: 12px;
-      color: #55483f;
-      transition: transform 0.2s ease, border-color 0.2s ease;
-    }
-    .tool span { display: block; font-size: 22px; margin-bottom: 5px; }
-    .tool:hover {
-      transform: translateY(-2px);
-      border-color: #ff9a83;
-    }
-    .section-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 22px 0 12px;
-    }
-    .section-head h2 { font: 700 19px Poppins; margin: 0; }
-    .section-head button {
-      border: 0;
-      background: transparent;
-      color: var(--red);
-      font-size: 12px;
-      font-weight: 800;
-    }
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-    }
-    .card {
-      background: white;
-      border: 1px solid var(--line);
-      border-radius: 15px;
-      overflow: hidden;
-    }
-    .thumb {
-      height: 165px;
-      display: grid;
-      place-items: center;
-      font-size: 75px;
-      position: relative;
-    }
-    .krishna { background: linear-gradient(130deg, #b8e5b0, #fff0a7, #f5c38d); }
-    .girl { background: linear-gradient(130deg, #ffb5a1, #ffdfb1, #9bd8f1); }
-    .lion { background: linear-gradient(130deg, #ffcf76, #e87939, #68422c); }
-    .panda { background: linear-gradient(130deg, #b8df9b, #d8f0c9, #8ebc73); }
-    .fox { background: linear-gradient(130deg, #ffd8a4, #f5a06b, #b4d9ef); }
-    .duration {
-      position: absolute;
-      bottom: 9px;
-      left: 10px;
-      background: #211b19c9;
-      color: white;
-      padding: 4px 7px;
-      border-radius: 6px;
-      font-size: 10px;
-    }
-    .card-info {
-      padding: 10px 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-    }
-    .card-info strong { font-size: 12px; }
-    .tag {
-      font-size: 10px;
-      color: #c74737;
-      background: #fff0e9;
-      padding: 4px 7px;
-      border-radius: 9px;
-    }
+    .tagline { font: italic 700 clamp(20px, 2.2vw, 30px)/1.25 "Playfair Display", serif; margin: 7px 0 14px; }
+    .tagline::after { content: ""; display: block; width: 145px; height: 5px; border-bottom: 4px solid var(--red); border-radius: 50%; transform: rotate(-3deg); margin: 1px auto 0; }
+    .hero-copy p { margin: 12px 0 14px; font-size: 14px; font-weight: 600; line-height: 1.45; }
+    .primary { border: 0; border-radius: 25px; padding: 12px 22px; background: linear-gradient(100deg, #ed302c, #c90c1b); color: #fff; font-weight: 800; box-shadow: 0 5px 13px #d92b2735; }
+    .primary:hover { filter: brightness(1.05); transform: translateY(-1px); }
+    .quick-tools { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; margin: 14px 0 19px; }
+    .tool { min-height: 92px; border: 1px solid #f4e9e2; border-radius: 15px; padding: 10px 5px; background: white; text-align: center; color: #171513; font-size: 13px; font-weight: 800; box-shadow: 0 3px 8px #60391a0b; transition: transform .18s ease, box-shadow .18s ease; }
+    .tool:hover { transform: translateY(-3px); box-shadow: 0 7px 16px #60391a18; }
+    .tool span { display: block; font-size: 26px; line-height: 1.15; margin-bottom: 5px; }
+    .quick-tools .tool:nth-child(1) { background: #fff0ec; }
+    .quick-tools .tool:nth-child(2) { background: #f8edff; }
+    .quick-tools .tool:nth-child(3) { background: #fff2df; }
+    .quick-tools .tool:nth-child(4) { background: #f2eaff; }
+    .quick-tools .tool:nth-child(5) { background: #edf8e9; }
+    .quick-tools .tool:nth-child(6) { background: #eaf3ff; }
+    .section-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 19px 3px 10px; }
+    .section-head h2 { margin: 0; font: 800 22px Poppins, sans-serif; letter-spacing: -.5px; }
+    .section-head button { border: 0; padding: 7px 3px; background: transparent; color: var(--red); font-size: 13px; font-weight: 800; white-space: nowrap; }
+    .gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 16px; }
+    .card { min-width: 0; overflow: hidden; border: 1px solid #f0e5dc; border-radius: 13px; background: #fffdfa; box-shadow: 0 3px 9px #57391f0d; }
+    .thumb { position: relative; height: clamp(150px, 18vw, 205px); overflow: hidden; background: #f4d8bb; }
+    .thumb img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .35s ease; }
+    .card:hover .thumb img { transform: scale(1.035); }
+    .thumb.krishna { background: linear-gradient(130deg, #b8e5b0, #fff0a7, #f5c38d); }
+    .thumb.girl { background: linear-gradient(130deg, #ffb5a1, #ffdfb1, #9bd8f1); }
+    .thumb.lion { background: linear-gradient(130deg, #ffcf76, #e87939, #68422c); }
+    .thumb.panda { background: linear-gradient(130deg, #b8df9b, #d8f0c9, #8ebc73); }
+    .thumb.fox { background: linear-gradient(130deg, #ffd8a4, #f5a06b, #b4d9ef); }
+    .thumb-emoji { position: absolute; inset: 0; display: grid; place-items: center; font-size: 76px; }
+    .thumb.has-image .thumb-emoji { display: none; }
+    .duration, .views { position: absolute; bottom: 8px; display: inline-flex; align-items: center; gap: 5px; padding: 4px 7px; border-radius: 7px; background: #171513d9; color: #fff; font-size: 11px; font-weight: 700; }
+    .duration { left: 9px; }
+    .views { right: 9px; }
+    .favorite { position: absolute; top: 9px; right: 9px; width: 33px; height: 33px; display: grid; place-items: center; border: 0; border-radius: 50%; background: #171513b5; color: #fff; font-size: 20px; }
+    .favorite.active { color: #ff4545; }
+    .card-info { min-height: 41px; padding: 8px 10px; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .card-info strong { overflow: hidden; font-size: 13px; text-overflow: ellipsis; white-space: nowrap; }
+    .card-meta { display: flex; align-items: center; gap: 7px; flex: 0 0 auto; }
+    .tag { border-radius: 10px; padding: 4px 8px; background: #f1e8ff; color: #6932a6; font-size: 10px; font-weight: 700; }
+    .tag.kids { background: #ffe8e5; color: #bd2929; }
+    .tag.wildlife { background: #e4f6e5; color: #26753a; }
+    .tag.animals { background: #e4f0ff; color: #245caa; }
+    .more { border: 0; background: transparent; font-size: 20px; line-height: 1; color: #28221e; padding: 0 3px; }
+
+    /* Other workspace pages */
     .page { display: none; }
     .page.active { display: block; }
-    .panel {
-      background: white;
-      border: 1px solid var(--line);
-      border-radius: 17px;
-      padding: 20px;
-      margin-top: 16px;
-    }
-    .panel h2 { font: 700 20px Poppins; margin: 0 0 5px; }
-    .sub { font-size: 13px; color: var(--muted); margin: 0 0 18px; }
+    .panel { padding: 22px; margin-top: 8px; border: 1px solid var(--line); border-radius: 17px; background: #fffdfa; box-shadow: 0 3px 12px #57391f0a; }
+    .panel h2 { margin: 0 0 5px; font: 700 21px Poppins, sans-serif; }
+    .sub { margin: 0 0 18px; color: var(--muted); font-size: 13px; }
     .field { margin: 15px 0; }
-    .field label {
-      display: block;
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 7px;
-    }
-    .field textarea, .field input, .field select {
-      width: 100%;
-      border: 1px solid var(--line);
-      border-radius: 11px;
-      padding: 12px;
-      background: #fffdfa;
-      outline: none;
-    }
+    .field label { display: block; margin-bottom: 7px; font-size: 13px; font-weight: 700; }
+    .field textarea, .field input, .field select { width: 100%; border: 1px solid var(--line); border-radius: 11px; padding: 12px; background: #fffdfa; outline: none; }
     .field textarea { min-height: 115px; resize: vertical; }
-    .field input:focus, .field textarea:focus, .field select:focus { border-color: var(--coral); }
+    .field input:focus, .field textarea:focus, .field select:focus { border-color: #e99b8c; }
     .two { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
-    .upload {
-      border: 2px dashed #efc9b8;
-      border-radius: 13px;
-      padding: 25px;
-      text-align: center;
-      background: #fffaf5;
-      color: var(--muted);
-    }
-    .preview {
-      max-width: 100%;
-      max-height: 190px;
-      display: block;
-      margin: 12px auto;
-      border-radius: 10px;
-    }
-    .notice {
-      background: #fff5e8;
-      color: #87623d;
-      border-radius: 10px;
-      padding: 11px;
-      font-size: 12px;
-      line-height: 1.5;
-      margin-top: 14px;
-    }
-    .result {
-      border: 1px solid var(--line);
-      background: #fffaf5;
-      border-radius: 12px;
-      padding: 14px;
-      margin-top: 15px;
-      font-size: 13px;
-    }
-    .empty { text-align: center; padding: 35px; color: var(--muted); }
-    .mobile-menu { display: none; }
+    .upload { border: 2px dashed #efc9b8; border-radius: 13px; padding: 20px; text-align: center; background: #fffaf5; color: var(--muted); }
+    .upload input { display: block; max-width: 100%; margin: 12px auto 0; }
+    .preview { max-width: 100%; max-height: 190px; display: block; margin: 12px auto; border-radius: 10px; }
+    .notice { margin-top: 14px; border-radius: 10px; padding: 11px; background: #fff5e8; color: #87623d; font-size: 12px; line-height: 1.5; }
+    .result { margin-top: 15px; border: 1px solid var(--line); border-radius: 12px; padding: 14px; background: #fffaf5; font-size: 13px; }
+    .empty { padding: 35px; color: var(--muted); text-align: center; }
+    .character-gallery .thumb { height: 180px; }
+    .template-button { padding: 8px 12px; border-radius: 12px; font-size: 11px; }
 
-    @media (max-width: 850px) {
-      .sidebar { width: 190px; }
-      .main { padding: 15px; }
-      .quick-tools { grid-template-columns: repeat(3, 1fr); }
+    @media (min-width: 1500px) { :root { --sidebar-width: 250px; } .main { padding-right: 30px; padding-left: 26px; } }
+    @media (max-width: 1050px) {
+      :root { --sidebar-width: 205px; }
+      .sidebar { padding-right: 12px; padding-left: 12px; }
+      .main { padding-right: 16px; padding-left: 16px; }
+      .hero { min-height: 245px; }
+      .hero-copy h1 { white-space: normal; }
+      .thumb { height: 175px; }
     }
-
-    @media (max-width: 620px) {
-      .app { display: block; }
-      .sidebar {
-        display: none;
-        position: fixed;
-        z-index: 10;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        box-shadow: 10px 0 30px #0002;
-      }
+    @media (max-width: 760px) {
+      .sidebar { width: 245px; flex-basis: 245px; display: none; position: fixed; z-index: 20; inset: 0 auto 0 0; overflow-y: auto; box-shadow: 10px 0 30px #0002; }
       .sidebar.open { display: flex; }
-      .main { padding: 12px; }
-      .mobile-menu { display: inline-block; }
-      .hero { grid-template-columns: 1fr; }
-      .hero-art { min-height: 115px; font-size: 60px; }
-      .hero-copy { padding: 15px 20px 22px; text-align: center; }
-      .quick-tools { grid-template-columns: repeat(3, 1fr); }
-      .gallery { grid-template-columns: 1fr; }
-      .thumb { height: 185px; }
-      .two { grid-template-columns: 1fr; }
+      .app { display: block; }
+      .main { padding: 12px 14px 30px; }
+      .mobile-menu { display: grid; }
+      .hero { min-height: 250px; grid-template-columns: 1fr; }
+      .hero-art { background-image: linear-gradient(0deg, #fff1e5f2 0%, #fff1e500 76%), url("https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=1200&q=80"); background-position: center; }
+      .hero-copy { grid-column: 1; align-self: end; padding: 105px 18px 17px; }
+      .hero-copy h1 { font-size: clamp(26px, 7vw, 38px); }
+      .hero-copy p { margin: 8px 0 11px; }
+      .tagline { margin: 5px 0 8px; }
+      .quick-tools { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+      .tool { min-height: 82px; font-size: 11px; }
+      .gallery { gap: 10px; }
+      .thumb { height: clamp(130px, 26vw, 190px); }
+      .section-head h2 { font-size: 19px; }
     }
+    @media (max-width: 500px) {
+      .main { padding: 10px; }
+      .topbar { gap: 7px; margin-bottom: 11px; }
+      .search { height: 41px; padding-left: 39px; font-size: 12px; }
+      .search-icon { left: 13px; font-size: 19px; }
+      .round { width: 37px; height: 37px; flex-basis: 37px; font-size: 18px; }
+      .profile-button { width: 36px; height: 36px; flex-basis: 36px; }
+      .profile-chevron { margin-left: -8px; }
+      .hero { min-height: 245px; }
+      .hero-art { background-position: 42% center; }
+      .hero-copy { padding: 100px 12px 14px; }
+      .hero-copy h1 { letter-spacing: -1px; }
+      .tagline { font-size: 20px; }
+      .hero-copy p { font-size: 12px; }
+      .quick-tools { gap: 6px; margin: 10px 0 16px; }
+      .tool { min-height: 75px; padding: 8px 3px; font-size: 10px; }
+      .tool span { font-size: 22px; }
+      .gallery { grid-template-columns: 1fr; }
+      .thumb { height: 205px; }
+      .section-head { margin: 15px 2px 9px; }
+      .section-head h2 { font-size: 17px; }
+      .two { grid-template-columns: 1fr; gap: 0; }
+      .panel { padding: 16px; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
   </style>
 </head>
 <body>
   <div class="app">
-    <aside class="sidebar" id="sidebar">
+    <aside class="sidebar" id="sidebar" aria-label="Main navigation">
       <div class="brand">
-        <div class="logo">S</div>
+        <svg class="brand-mark" viewBox="0 0 120 112" role="img" aria-label="Shubham AI Studio logo">
+          <defs><linearGradient id="logoRed" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f42a30"/><stop offset="1" stop-color="#bd0718"/></linearGradient></defs>
+          <path d="M94 14c-10-9-24-11-40-8C31 10 12 27 9 44c-3 15 9 26 26 25 13 0 25-6 34-15-8 13-21 22-38 24-12 1-23-2-29-9 4 22 25 34 49 29 24-5 41-24 43-45 2-17-7-27-22-27-11 0-22 6-29 15 7-14 19-23 32-26 8-2 15-1 19 3z" fill="url(#logoRed)"/>
+          <path d="M83 31c-7-5-17-4-26 0-13 6-21 17-20 27 1 7 7 10 15 8 10-2 20-10 26-21-2 12-10 23-22 29-8 4-17 5-24 2 7 9 20 12 33 7 17-6 28-23 27-38 0-6-3-11-9-14z" fill="#fff9f2"/>
+          <path d="M102 7l2 8 8 2-8 2-2 8-2-8-8-2 8-2z" fill="#d71926"/>
+          <path d="M110 33l1.5 4.5L116 39l-4.5 1.5L110 45l-1.5-4.5L104 39l4.5-1.5z" fill="#d71926"/>
+        </svg>
         <div class="brand-name">Shubham<span>AI Studio</span></div>
       </div>
       <div class="menu-label">WORKSPACE</div>
@@ -361,239 +228,141 @@
       <button class="nav" data-page="templates"><span class="ico">▦</span>Templates</button>
       <button class="nav" data-page="voice"><span class="ico">🎧</span>AI Voice</button>
       <button class="nav" data-page="history"><span class="ico">◷</span>History</button>
-
       <div class="upgrade">
-        <div style="font-size:24px">👑</div>
-        <strong>Shubham AI Studio</strong>
-        <p>Explore creative possibilities</p>
-        <button type="button" onclick="showPage('text')">Start Creating →</button>
+        <div class="crown">♛</div><strong>Upgrade to<br>Pro Plan</strong>
+        <p>Get more credits,<br>premium features<br>and higher quality.</p>
+        <button type="button" onclick="showPage('text')">Go Pro →</button>
       </div>
     </aside>
 
     <main class="main">
-      <div class="topbar">
-        <button class="round mobile-menu" type="button" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
-        <input class="search" id="search" placeholder="⌕ Search templates, characters...">
-        <button class="round" type="button" title="Notifications">♧</button>
-        <button class="round" type="button" title="Profile">👤</button>
-      </div>
+      <header class="topbar">
+        <button class="round mobile-menu" type="button" aria-label="Open menu" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+        <label class="search-wrap"><span class="search-icon" aria-hidden="true">⌕</span><input class="search" id="search" type="search" placeholder="Search templates, characters..." aria-label="Search templates and characters"></label>
+        <button class="round" type="button" title="Notifications" aria-label="Notifications">♧<span class="notification-count">3</span></button>
+        <button class="profile-button" type="button" title="Profile" aria-label="Profile"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&h=100&q=80" alt="Profile"></button>
+        <span class="profile-chevron" aria-hidden="true">⌄</span>
+      </header>
 
       <section class="page active" id="home">
         <div class="hero">
-          <div class="hero-art">👧🏻 🦊</div>
+          <div class="hero-art" role="img" aria-label="A warm, colorful storybook landscape"></div>
           <div class="hero-copy">
             <h1>Shubham <span>AI Studio</span></h1>
             <div class="tagline">Ideas into Moving Stories</div>
-            <p>Create stunning videos, images and more with the power of AI.</p>
-            <button class="primary" type="button" onclick="showPage('text')">Create Now →</button>
+            <p>Create stunning videos, images and more<br>with the power of AI.</p>
+            <button class="primary" type="button" onclick="showPage('text')">Start Creating&nbsp; ❯</button>
           </div>
         </div>
 
-        <div class="quick-tools">
-          <button class="tool" type="button" onclick="showPage('text')"><span>▶️</span>Text to Video</button>
-          <button class="tool" type="button" onclick="showPage('image')"><span>🌄</span>Image to Video</button>
-          <button class="tool" type="button" onclick="showPage('aiimage')"><span>🎨</span>AI Image</button>
-          <button class="tool" type="button" onclick="showPage('characters')"><span>👑</span>Characters</button>
-          <button class="tool" type="button" onclick="showPage('effects')"><span>✨</span>Effects</button>
-          <button class="tool" type="button" onclick="showPage('templates')"><span>▦</span>Templates</button>
+        <div class="quick-tools" aria-label="Creative tools">
+          <button class="tool" type="button" onclick="showPage('text')"><span style="color:#ed252b">⏵</span>Text to<br>Video</button>
+          <button class="tool" type="button" onclick="showPage('image')"><span style="color:#8e42e9">▧</span>Image to<br>Video</button>
+          <button class="tool" type="button" onclick="showPage('aiimage')"><span style="color:#f18a13">✿</span>AI Image</button>
+          <button class="tool" type="button" onclick="showPage('characters')"><span style="color:#7425d2">♛</span>Characters</button>
+          <button class="tool" type="button" onclick="showPage('effects')"><span style="color:#078c41">✦</span>Effects</button>
+          <button class="tool" type="button" onclick="showPage('templates')"><span style="color:#1268e8">▦</span>Templates</button>
         </div>
 
-        <div class="section-head">
-          <h2>🔥 Recommended for You</h2>
-          <button type="button" onclick="showPage('templates')">View All →</button>
-        </div>
-
+        <div class="section-head"><h2>🔥 Recommended for You</h2><button type="button" onclick="showPage('templates')">View All&nbsp; →</button></div>
         <div class="gallery">
           <article class="card">
-            <div class="thumb krishna">🦚 🧒🏻<span class="duration">▶ 00:20</span></div>
-            <div class="card-info"><strong>Bal Krishna Cute Video</strong><span class="tag">Animation</span></div>
+            <div class="thumb krishna"><img src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=900&q=85" alt="Child enjoying a sunny day" loading="lazy" onerror="this.parentElement.classList.remove('has-image');this.remove()"><span class="thumb-emoji">🦚 🧒🏻</span><span class="duration">▶ 00:20</span><span class="views">◉ 125K</span><button class="favorite" type="button" aria-label="Add Bal Krishna Cute Video to favorites" onclick="toggleFavorite(this)">♡</button></div>
+            <div class="card-info"><strong>Bal Krishna Cute Video</strong><div class="card-meta"><span class="tag">Animation</span><button class="more" type="button" aria-label="More options">⋮</button></div></div>
           </article>
           <article class="card">
-            <div class="thumb girl">👧🏻 🌸<span class="duration">▶ 00:18</span></div>
-            <div class="card-info"><strong>Little Girl Happiness</strong><span class="tag">Kids</span></div>
+            <div class="thumb girl"><img src="https://images.unsplash.com/photo-1519340241574-2cec6aef0c01?auto=format&fit=crop&w=900&q=85" alt="Girl smiling outdoors" loading="lazy" onerror="this.parentElement.classList.remove('has-image');this.remove()"><span class="thumb-emoji">👧🏻 🌸</span><span class="duration">▶ 00:18</span><span class="views">◉ 98K</span><button class="favorite" type="button" aria-label="Add Little Girl Happiness to favorites" onclick="toggleFavorite(this)">♡</button></div>
+            <div class="card-info"><strong>Little Girl Happiness</strong><div class="card-meta"><span class="tag kids">Kids</span><button class="more" type="button" aria-label="More options">⋮</button></div></div>
           </article>
           <article class="card">
-            <div class="thumb lion">🦁 🌅<span class="duration">▶ 00:22</span></div>
-            <div class="card-info"><strong>Lion King Style</strong><span class="tag">Wildlife</span></div>
+            <div class="thumb lion"><img src="https://images.unsplash.com/photo-1546182990-dffeafbe841d?auto=format&fit=crop&w=900&q=85" alt="Lion in a wildlife setting" loading="lazy" onerror="this.parentElement.classList.remove('has-image');this.remove()"><span class="thumb-emoji">🦁 🌅</span><span class="duration">▶ 00:22</span><span class="views">◉ 112K</span><button class="favorite" type="button" aria-label="Add Lion King Style to favorites" onclick="toggleFavorite(this)">♡</button></div>
+            <div class="card-info"><strong>Lion King Style</strong><div class="card-meta"><span class="tag wildlife">Wildlife</span><button class="more" type="button" aria-label="More options">⋮</button></div></div>
           </article>
           <article class="card">
-            <div class="thumb panda">🐼 🎋<span class="duration">▶ 00:15</span></div>
-            <div class="card-info"><strong>Cute Panda</strong><span class="tag">Animals</span></div>
+            <div class="thumb panda"><img src="https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?auto=format&fit=crop&w=900&q=85" alt="Panda eating bamboo" loading="lazy" onerror="this.parentElement.classList.remove('has-image');this.remove()"><span class="thumb-emoji">🐼 🎋</span><span class="duration">▶ 00:15</span><span class="views">◉ 76K</span><button class="favorite" type="button" aria-label="Add Cute Panda to favorites" onclick="toggleFavorite(this)">♡</button></div>
+            <div class="card-info"><strong>Cute Panda</strong><div class="card-meta"><span class="tag animals">Animals</span><button class="more" type="button" aria-label="More options">⋮</button></div></div>
           </article>
           <article class="card">
-            <div class="thumb fox">🦊 👧🏻<span class="duration">▶ 00:20</span></div>
-            <div class="card-info"><strong>Fox and Little Girl</strong><span class="tag">Story</span></div>
+            <div class="thumb fox"><img src="https://images.unsplash.com/photo-1474511320723-9a56873867b5?auto=format&fit=crop&w=900&q=85" alt="Fox in a natural habitat" loading="lazy" onerror="this.parentElement.classList.remove('has-image');this.remove()"><span class="thumb-emoji">🦊 👧🏻</span><span class="duration">▶ 00:20</span><span class="views">◉ 84K</span><button class="favorite" type="button" aria-label="Add Fox and Little Girl to favorites" onclick="toggleFavorite(this)">♡</button></div>
+            <div class="card-info"><strong>Fox and Little Girl</strong><div class="card-meta"><span class="tag">Story</span><button class="more" type="button" aria-label="More options">⋮</button></div></div>
           </article>
         </div>
       </section>
 
-      <section class="page" id="text">
-        <div class="panel">
-          <h2>🎬 Text to Video</h2>
-          <p class="sub">Turn your imagination into a moving story.</p>
-
-          <div class="field">
-            <label>Describe your video</label>
-            <textarea id="prompt" placeholder="A little girl and a friendly fox looking at a magical starry sky..."></textarea>
-          </div>
-
-          <div class="two">
-            <div class="field">
-              <label>Duration</label>
-              <select id="duration">
-                <option value="5">5 seconds</option>
-                <option value="10">10 seconds</option>
-                <option value="30">30 seconds</option>
-              </select>
-            </div>
-            <div class="field">
-              <label>Aspect Ratio</label>
-              <select id="ratio">
-                <option value="16:9">16:9 Landscape</option>
-                <option value="9:16">9:16 Portrait</option>
-                <option value="1:1">1:1 Square</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="two">
-            <div class="field">
-              <label>Visual Style</label>
-              <select id="style">
-                <option>3D Animation</option>
-                <option>Cinematic</option>
-                <option>Cartoon</option>
-                <option>Realistic</option>
-              </select>
-            </div>
-            <div class="field">
-              <label>Voice</label>
-              <select id="voice">
-                <option>No voice</option>
-                <option>Hindi voice</option>
-                <option>English voice</option>
-              </select>
-            </div>
-          </div>
-
-          <button class="primary" type="button" onclick="demoGenerate('text')">Generate Video →</button>
-          <div id="textResult"></div>
-          <div class="notice">यह अभी demo interface है। असली video generation के लिए सुरक्षित AI API connection आगे जोड़ दिया जाएगा।</div>
+      <section class="page" id="text"><div class="panel">
+        <h2>🎬 Text to Video</h2><p class="sub">Turn your imagination into a moving story.</p>
+        <div class="field"><label for="prompt">Describe your video</label><textarea id="prompt" placeholder="A little girl and a friendly fox looking at a magical starry sky..."></textarea></div>
+        <div class="two">
+          <div class="field"><label for="duration">Duration</label><select id="duration"><option value="5">5 seconds</option><option value="10">10 seconds</option><option value="30">30 seconds</option></select></div>
+          <div class="field"><label for="ratio">Aspect Ratio</label><select id="ratio"><option value="16:9">16:9 Landscape</option><option value="9:16">9:16 Portrait</option><option value="1:1">1:1 Square</option></select></div>
         </div>
-      </section>
-
-      <section class="page" id="image">
-        <div class="panel">
-          <h2>🖼️ Image to Video</h2>
-          <p class="sub">Upload an image and describe its motion.</p>
-
-          <div class="upload">
-            Choose your starting image
-            <input type="file" id="imageFile" accept="image/*" onchange="previewImage(event)">
-            <img id="imagePreview" class="preview" hidden>
-          </div>
-
-          <div class="field">
-            <label>Motion prompt</label>
-            <textarea id="motion" placeholder="Describe how the subject should move..."></textarea>
-          </div>
-
-          <button class="primary" type="button" onclick="demoGenerate('image')">Create Motion →</button>
-          <div id="imageResult"></div>
-          <div class="notice">Image preview works in this version. AI video generation will be connected separately.</div>
+        <div class="two">
+          <div class="field"><label for="style">Visual Style</label><select id="style"><option>3D Animation</option><option>Cinematic</option><option>Cartoon</option><option>Realistic</option></select></div>
+          <div class="field"><label for="voice">Voice</label><select id="voice"><option>No voice</option><option>Hindi voice</option><option>English voice</option></select></div>
         </div>
-      </section>
+        <button class="primary" type="button" onclick="demoGenerate('text')">Generate Video →</button><div id="textResult" aria-live="polite"></div>
+        <div class="notice">यह अभी demo interface है। असली video generation के लिए सुरक्षित AI API connection आगे जोड़ा जाएगा।</div>
+      </div></section>
 
-      <section class="page" id="aiimage">
-        <div class="panel">
-          <h2>🎨 AI Image</h2>
-          <p class="sub">Describe an image you want to create.</p>
+      <section class="page" id="image"><div class="panel">
+        <h2>🖼️ Image to Video</h2><p class="sub">Upload an image and describe its motion.</p>
+        <div class="upload">Choose your starting image<input type="file" id="imageFile" accept="image/*" onchange="previewImage(event)"><img id="imagePreview" class="preview" hidden alt="Selected image preview"></div>
+        <div class="field"><label for="motion">Motion prompt</label><textarea id="motion" placeholder="Describe how the subject should move..."></textarea></div>
+        <button class="primary" type="button" onclick="demoGenerate('image')">Create Motion →</button><div id="imageResult" aria-live="polite"></div>
+        <div class="notice">Image preview works in this version. AI video generation will be connected separately.</div>
+      </div></section>
 
-          <div class="field">
-            <label>Image prompt</label>
-            <textarea id="imagePrompt" placeholder="A beautiful magical forest with a little fox..."></textarea>
-          </div>
+      <section class="page" id="aiimage"><div class="panel">
+        <h2>🎨 AI Image</h2><p class="sub">Describe an image you want to create.</p>
+        <div class="field"><label for="imagePrompt">Image prompt</label><textarea id="imagePrompt" placeholder="A beautiful magical forest with a little fox..."></textarea></div>
+        <button class="primary" type="button" onclick="demoGenerate('aiimage')">Generate Image →</button><div id="aiimageResult" aria-live="polite"></div>
+        <div class="notice">AI image API will be connected in a later step.</div>
+      </div></section>
 
-          <button class="primary" type="button" onclick="demoGenerate('aiimage')">Generate Image →</button>
-          <div id="aiimageResult"></div>
-          <div class="notice">AI image API will be connected in a later step.</div>
+      <section class="page" id="characters"><div class="panel">
+        <h2>👑 Characters</h2><p class="sub">Choose a character idea for your next story.</p>
+        <div class="gallery character-gallery">
+          <div class="card"><div class="thumb girl"><span class="thumb-emoji">👧🏻</span></div><div class="card-info"><strong>Little Girl</strong><span class="tag kids">Kids</span></div></div>
+          <div class="card"><div class="thumb fox"><span class="thumb-emoji">🦊</span></div><div class="card-info"><strong>Friendly Fox</strong><span class="tag">Story</span></div></div>
+          <div class="card"><div class="thumb panda"><span class="thumb-emoji">🐼</span></div><div class="card-info"><strong>Cute Panda</strong><span class="tag animals">Animal</span></div></div>
+          <div class="card"><div class="thumb krishna"><span class="thumb-emoji">🦚</span></div><div class="card-info"><strong>Bal Krishna</strong><span class="tag">Animation</span></div></div>
         </div>
-      </section>
+      </div></section>
 
-      <section class="page" id="characters">
-        <div class="panel">
-          <h2>👑 Characters</h2>
-          <p class="sub">Choose a character idea for your next story.</p>
-          <div class="gallery">
-            <div class="card"><div class="thumb girl">👧🏻</div><div class="card-info"><strong>Little Girl</strong><span class="tag">Kids</span></div></div>
-            <div class="card"><div class="thumb fox">🦊</div><div class="card-info"><strong>Friendly Fox</strong><span class="tag">Story</span></div></div>
-            <div class="card"><div class="thumb panda">🐼</div><div class="card-info"><strong>Cute Panda</strong><span class="tag">Animal</span></div></div>
-            <div class="card"><div class="thumb krishna">🦚</div><div class="card-info"><strong>Bal Krishna</strong><span class="tag">Animation</span></div></div>
-          </div>
+      <section class="page" id="effects"><div class="panel">
+        <h2>✨ Effects &amp; Styles</h2><p class="sub">Select a visual direction for your project.</p>
+        <div class="quick-tools">
+          <button class="tool" type="button" onclick="selectStyle('3D Animation')"><span>🧸</span>3D Animation</button>
+          <button class="tool" type="button" onclick="selectStyle('Cinematic')"><span>🎥</span>Cinematic</button>
+          <button class="tool" type="button" onclick="selectStyle('Fantasy')"><span>🪄</span>Fantasy</button>
+          <button class="tool" type="button" onclick="selectStyle('Watercolor')"><span>🎨</span>Watercolor</button>
+          <button class="tool" type="button" onclick="selectStyle('Cartoon')"><span>🐻</span>Cartoon</button>
+          <button class="tool" type="button" onclick="selectStyle('Realistic')"><span>🌄</span>Realistic</button>
+        </div><p id="styleMessage" class="result">Choose a style to use it in your prompt.</p>
+      </div></section>
+
+      <section class="page" id="templates"><div class="panel">
+        <h2>▦ Templates</h2><p class="sub">Story ideas to get you started.</p>
+        <div class="gallery">
+          <div class="card"><div class="thumb fox"><span class="thumb-emoji">🦊 👧🏻</span></div><div class="card-info"><strong>Fox and Little Girl</strong><button type="button" class="primary template-button" onclick="useTemplate('A little girl and a friendly fox discover a magical hidden forest at night.')">Use it</button></div></div>
+          <div class="card"><div class="thumb krishna"><span class="thumb-emoji">🦚 🧒🏻</span></div><div class="card-info"><strong>Bal Krishna Story</strong><button type="button" class="primary template-button" onclick="useTemplate('A beautiful child-friendly animated story about Bal Krishna playing with peacocks and friends.')">Use it</button></div></div>
+          <div class="card"><div class="thumb panda"><span class="thumb-emoji">🐼 🎋</span></div><div class="card-info"><strong>Panda Adventure</strong><button type="button" class="primary template-button" onclick="useTemplate('A cute panda explores a colourful bamboo forest.')">Use it</button></div></div>
+          <div class="card"><div class="thumb lion"><span class="thumb-emoji">🦁 🌅</span></div><div class="card-info"><strong>Lion Adventure</strong><button type="button" class="primary template-button" onclick="useTemplate('A friendly lion goes on a magical jungle adventure.')">Use it</button></div></div>
         </div>
-      </section>
+      </div></section>
 
-      <section class="page" id="effects">
-        <div class="panel">
-          <h2>✨ Effects &amp; Styles</h2>
-          <p class="sub">Select a visual direction for your project.</p>
-          <div class="quick-tools">
-            <button class="tool" type="button" onclick="selectStyle('3D Animation')"><span>🧸</span>3D Animation</button>
-            <button class="tool" type="button" onclick="selectStyle('Cinematic')"><span>🎥</span>Cinematic</button>
-            <button class="tool" type="button" onclick="selectStyle('Fantasy')"><span>🪄</span>Fantasy</button>
-            <button class="tool" type="button" onclick="selectStyle('Watercolor')"><span>🎨</span>Watercolor</button>
-            <button class="tool" type="button" onclick="selectStyle('Cartoon')"><span>🐻</span>Cartoon</button>
-            <button class="tool" type="button" onclick="selectStyle('Realistic')"><span>🌄</span>Realistic</button>
-          </div>
-          <p id="styleMessage" class="result">Choose a style to use it in your prompt.</p>
-        </div>
-      </section>
+      <section class="page" id="voice"><div class="panel">
+        <h2>🎧 AI Voice</h2><p class="sub">Prepare narration for your story.</p>
+        <div class="field"><label for="voiceText">Your narration</label><textarea id="voiceText" placeholder="अपनी कहानी की आवाज़ यहाँ लिखें..."></textarea></div>
+        <div class="field"><label for="voiceLanguage">Language</label><select id="voiceLanguage"><option>Hindi</option><option>English</option><option>Marathi</option></select></div>
+        <button class="primary" type="button" onclick="saveVoice()">Save Voice Script</button><div id="voiceResult" aria-live="polite"></div>
+        <div class="notice">Voice generation will be enabled after connecting a supported voice API.</div>
+      </div></section>
 
-      <section class="page" id="templates">
-        <div class="panel">
-          <h2>▦ Templates</h2>
-          <p class="sub">Story ideas to get you started.</p>
-          <div class="gallery">
-            <div class="card"><div class="thumb fox">🦊 👧🏻</div><div class="card-info"><strong>Fox and Little Girl</strong><button type="button" class="primary" style="padding:8px 12px;border-radius:12px;" onclick="useTemplate('A little girl and a friendly fox discover a magical hidden forest at night.')">Use it</button></div></div>
-            <div class="card"><div class="thumb krishna">🦚 🧒🏻</div><div class="card-info"><strong>Bal Krishna Story</strong><button type="button" class="primary" style="padding:8px 12px;border-radius:12px;" onclick="useTemplate('A beautiful child-friendly animated story about Bal Krishna playing with peacocks and friends.')">Use it</button></div></div>
-            <div class="card"><div class="thumb panda">🐼 🎋</div><div class="card-info"><strong>Panda Adventure</strong><button type="button" class="primary" style="padding:8px 12px;border-radius:12px;" onclick="useTemplate('A cute panda explores a colourful bamboo forest.')">Use it</button></div></div>
-            <div class="card"><div class="thumb lion">🦁 🌅</div><div class="card-info"><strong>Lion Adventure</strong><button type="button" class="primary" style="padding:8px 12px;border-radius:12px;" onclick="useTemplate('A friendly lion goes on a magical jungle adventure.')">Use it</button></div></div>
-          </div>
-        </div>
-      </section>
-
-      <section class="page" id="voice">
-        <div class="panel">
-          <h2>🎧 AI Voice</h2>
-          <p class="sub">Prepare narration for your story.</p>
-
-          <div class="field">
-            <label>Your narration</label>
-            <textarea id="voiceText" placeholder="अपनी कहानी की आवाज़ यहाँ लिखें..."></textarea>
-          </div>
-
-          <div class="field">
-            <label>Language</label>
-            <select id="voiceLanguage">
-              <option>Hindi</option>
-              <option>English</option>
-              <option>Marathi</option>
-            </select>
-          </div>
-
-          <button class="primary" type="button" onclick="saveVoice()">Save Voice Script</button>
-          <div id="voiceResult"></div>
-          <div class="notice">Voice generation will be enabled after connecting a supported voice API.</div>
-        </div>
-      </section>
-
-      <section class="page" id="history">
-        <div class="panel">
-          <h2>◷ My Creations / History</h2>
-          <p class="sub">Your saved demo requests appear here.</p>
-          <div id="historyList" class="empty">Your creations will appear here.</div>
-        </div>
-      </section>
+      <section class="page" id="history"><div class="panel">
+        <h2>◷ My Creations / History</h2><p class="sub">Your saved demo requests appear here.</p>
+        <div id="historyList" class="empty">Your creations will appear here.</div>
+      </div></section>
     </main>
   </div>
 
@@ -603,69 +372,55 @@
 
     try {
       const saved = localStorage.getItem("shubhamHistory");
-      historyItems = saved ? JSON.parse(saved) : [];
+      const parsed = saved ? JSON.parse(saved) : [];
+      historyItems = Array.isArray(parsed) ? parsed : [];
     } catch (error) {
       historyItems = [];
     }
 
     function showPage(id) {
-      const sidebar = document.getElementById("sidebar");
-      const pageMap = pages.map(page => document.getElementById(page)).filter(Boolean);
-      pageMap.forEach(page => page.classList.toggle("active", page.id === id));
-
+      pages.forEach(pageId => {
+        const page = document.getElementById(pageId);
+        if (page) page.classList.toggle("active", pageId === id);
+      });
       document.querySelectorAll(".nav").forEach(button => {
         button.classList.toggle("active", button.dataset.page === id);
       });
-
-      if (sidebar) sidebar.classList.remove("open");
+      document.getElementById("sidebar")?.classList.remove("open");
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     function escapeHTML(value) {
       return String(value).replace(/[&<>"']/g, char => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#39;"
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
       }[char]));
     }
 
-    function wait(ms) {
-      return new Promise(resolve => setTimeout(resolve, ms));
-    }
+    function wait(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
 
     function persistHistory() {
-      try {
-        localStorage.setItem("shubhamHistory", JSON.stringify(historyItems));
-      } catch (error) {
-        console.warn("History could not be saved:", error);
-      }
+      try { localStorage.setItem("shubhamHistory", JSON.stringify(historyItems)); }
+      catch (error) { console.warn("History could not be saved:", error); }
     }
 
     function renderHistory() {
       const list = document.getElementById("historyList");
       if (!list) return;
-
       if (!historyItems.length) {
         list.textContent = "Your creations will appear here.";
         list.className = "empty";
         return;
       }
-
       list.className = "";
-      list.innerHTML = historyItems.map(item => (
-        '<div class="result"><strong>' +
-        escapeHTML((item.type || "GEN").toUpperCase()) + '</strong><br>' +
-        escapeHTML(item.prompt || "Untitled prompt") + '<br><small>' +
-        escapeHTML(item.time || "Just now") + '</small></div>'
-      )).join("");
+      list.innerHTML = historyItems.map(item =>
+        '<div class="result"><strong>' + escapeHTML((item.type || "GEN").toUpperCase()) + '</strong><br>' +
+        escapeHTML(item.prompt || "Untitled prompt") + '<br><small>' + escapeHTML(item.time || "Just now") + '</small></div>'
+      ).join("");
     }
 
     async function demoGenerate(type) {
       const output = document.getElementById(type + "Result");
       if (!output) return;
-
       let prompt = "";
       if (type === "text") prompt = document.getElementById("prompt")?.value.trim() || "";
       else if (type === "image") prompt = document.getElementById("motion")?.value.trim() || "";
@@ -675,157 +430,85 @@
         output.innerHTML = '<div class="result">पहले अपना prompt लिखिए।</div>';
         return;
       }
-
       if (type !== "text") {
         output.innerHTML = '<div class="result">यह फीचर अभी demo mode में है।</div>';
         return;
       }
 
-      const durationInput = document.getElementById("duration");
-      const ratioInput = document.getElementById("ratio");
-      const styleInput = document.getElementById("style");
-
-      const duration = Number.parseInt(durationInput?.value || "5", 10);
-      const ratio = (ratioInput?.value || "16:9").split(" ")[0];
-      const style = styleInput?.value || "3D Animation";
-      const finalPrompt = prompt + ". Visual style: " + style;
-
+      const duration = Number.parseInt(document.getElementById("duration")?.value || "5", 10);
+      const ratio = document.getElementById("ratio")?.value || "16:9";
+      const style = document.getElementById("style")?.value || "3D Animation";
       if (!Number.isInteger(duration) || duration < 2 || duration > 15) {
         output.innerHTML = '<div class="result">2 से 15 सेकंड चुनें।</div>';
         return;
       }
 
       const button = document.querySelector("#text .primary");
-      const oldText = button ? button.textContent : "Generate Video →";
-
-      if (button) {
-        button.disabled = true;
-        button.textContent = "Generating...";
-      }
-
+      const oldText = button?.textContent || "Generate Video →";
+      if (button) { button.disabled = true; button.textContent = "Generating..."; }
       output.innerHTML = '<div class="result">आपकी वीडियो Request भेजी जा रही है...</div>';
 
       try {
         const response = await fetch("/.netlify/functions/submit", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            prompt: finalPrompt,
-            duration,
-            aspect_ratio: ratio
-          })
+          body: JSON.stringify({ prompt: prompt + ". Visual style: " + style, duration, aspect_ratio: ratio })
         });
-
-        let data = {};
-        try {
-          data = await response.json();
-        } catch (error) {
-          data = {};
-        }
-
-        if (!response.ok) {
-          throw new Error(data.error || "Request failed");
-        }
-
-        if (!data.request_id) {
-          throw new Error("Request ID नहीं मिला।");
-        }
-
-        output.innerHTML = '<div class="result">Request भेज दी गई है। वीडियो बन रही है...</div>';
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "Request failed");
+        if (!data.request_id) throw new Error("Request ID नहीं मिला।");
 
         let completed = false;
+        output.innerHTML = '<div class="result">Request भेज दी गई है। वीडियो बन रही है...</div>';
         for (let i = 0; i < 100; i++) {
           await wait(3000);
-
           const checkResponse = await fetch("/.netlify/functions/check?id=" + encodeURIComponent(data.request_id));
-          let checkData = {};
-          try {
-            checkData = await checkResponse.json();
-          } catch (error) {
-            checkData = {};
-          }
-
-          if (!checkResponse.ok) {
-            throw new Error(checkData.error || "Status check failed");
-          }
-
+          const checkData = await checkResponse.json();
+          if (!checkResponse.ok) throw new Error(checkData.error || "Status check failed");
           if (checkData.status === "COMPLETED") {
-            if (!checkData.video_url) {
-              throw new Error("Video URL नहीं मिला।");
-            }
-
-            const videoUrl = new URL(checkData.video_url);
-            if (videoUrl.protocol !== "https:") {
-              throw new Error("Invalid video URL");
-            }
-
+            const videoUrl = new URL(checkData.video_url || "");
+            if (videoUrl.protocol !== "https:") throw new Error("Invalid or missing video URL");
             const safeUrl = escapeHTML(videoUrl.href);
-            output.innerHTML = (
-              '<div class="result">' +
-              '<strong>🎉 Your Video Is Ready!</strong>' +
-              '<video controls playsinline ' +
-              'style="width:100%;margin-top:12px;border-radius:10px" ' +
-              'src="' + safeUrl + '"></video>' +
-              '<p><a href="' + safeUrl + '" target="_blank" rel="noopener">Download Video</a></p>' +
-              '</div>'
-            );
-
-            historyItems.unshift({
-              type: "text",
-              prompt,
-              time: new Date().toLocaleString()
-            });
-            persistHistory();
-            renderHistory();
-            completed = true;
-            break;
+            output.innerHTML = '<div class="result"><strong>🎉 Your Video Is Ready!</strong>' +
+              '<video controls playsinline style="width:100%;margin-top:12px;border-radius:10px" src="' + safeUrl + '"></video>' +
+              '<p><a href="' + safeUrl + '" target="_blank" rel="noopener">Download Video</a></p></div>';
+            historyItems.unshift({ type: "text", prompt, time: new Date().toLocaleString() });
+            persistHistory(); renderHistory(); completed = true; break;
           }
-
-          if (["FAILED", "CANCELLED"].includes(checkData.status)) {
-            throw new Error("Video generation failed.");
-          }
-
+          if (["FAILED", "CANCELLED"].includes(checkData.status)) throw new Error("Video generation failed.");
           output.innerHTML = '<div class="result">वीडियो बन रही है... Status: ' + escapeHTML(checkData.status || "WAITING") + '</div>';
         }
-
-        if (!completed) {
-          throw new Error("समय अधिक लग रहा है। बाद में फिर Status चेक करें।");
-        }
+        if (!completed) throw new Error("समय अधिक लग रहा है। बाद में फिर Status चेक करें।");
       } catch (error) {
         console.error(error);
         output.innerHTML = '<div class="result"><strong>Error:</strong><br>' + escapeHTML(error.message || "Something went wrong") + '</div>';
       } finally {
-        if (button) {
-          button.disabled = false;
-          button.textContent = oldText;
-        }
+        if (button) { button.disabled = false; button.textContent = oldText; }
       }
     }
 
     function previewImage(event) {
       const file = event.target.files?.[0];
       if (!file) return;
-
+      if (!file.type.startsWith("image/")) return;
       const image = document.getElementById("imagePreview");
       if (!image) return;
-      image.src = URL.createObjectURL(file);
+      if (image.dataset.objectUrl) URL.revokeObjectURL(image.dataset.objectUrl);
+      image.dataset.objectUrl = URL.createObjectURL(file);
+      image.src = image.dataset.objectUrl;
       image.hidden = false;
     }
 
     function selectStyle(style) {
-      const styleMessage = document.getElementById("styleMessage");
-      if (styleMessage) {
-        styleMessage.textContent = "Selected style: " + style;
-      }
-
+      const message = document.getElementById("styleMessage");
+      if (message) message.textContent = "Selected style: " + style;
       showPage("text");
-
       const styleField = document.getElementById("style");
-      if (!styleField) return;
-
-      const validStyles = ["3D Animation", "Cinematic", "Cartoon", "Realistic"];
-      const fallbackStyles = ["Fantasy", "Watercolor"];
-      styleField.value = validStyles.includes(style) ? style : (fallbackStyles.includes(style) ? "3D Animation" : style);
+      if (styleField) styleField.value = ["3D Animation", "Cinematic", "Cartoon", "Realistic"].includes(style) ? style : "3D Animation";
+      const prompt = document.getElementById("prompt");
+      if (prompt && (style === "Fantasy" || style === "Watercolor")) {
+        prompt.value = prompt.value.trim() ? prompt.value.trim() + ". Style: " + style : "Style: " + style;
+      }
     }
 
     function useTemplate(prompt) {
@@ -841,35 +524,28 @@
         if (output) output.innerHTML = '<div class="result">पहले narration लिखिए।</div>';
         return;
       }
-
       const language = document.getElementById("voiceLanguage")?.value || "Hindi";
-      historyItems.unshift({
-        type: "voice",
-        prompt: text + " [" + language + "]",
-        time: new Date().toLocaleString()
-      });
-      persistHistory();
-      renderHistory();
-
-      if (output) {
-        output.innerHTML = '<div class="result">Voice script saved. Actual voice generation will be connected separately.</div>';
-      }
+      historyItems.unshift({ type: "voice", prompt: text + " [" + language + "]", time: new Date().toLocaleString() });
+      persistHistory(); renderHistory();
+      if (output) output.innerHTML = '<div class="result">Voice script saved. Actual voice generation will be connected separately.</div>';
     }
 
-    document.querySelectorAll(".nav").forEach(button => {
-      button.addEventListener("click", () => showPage(button.dataset.page));
-    });
+    function toggleFavorite(button) {
+      const active = button.classList.toggle("active");
+      button.textContent = active ? "♥" : "♡";
+      button.setAttribute("aria-pressed", String(active));
+    }
 
+    document.querySelectorAll(".nav").forEach(button => button.addEventListener("click", () => showPage(button.dataset.page)));
     const searchBox = document.getElementById("search");
     if (searchBox) {
       searchBox.addEventListener("input", event => {
-        const query = event.target.value.toLowerCase();
+        const query = event.target.value.toLowerCase().trim();
         document.querySelectorAll(".card").forEach(card => {
           card.style.display = card.textContent.toLowerCase().includes(query) ? "" : "none";
         });
       });
     }
-
     renderHistory();
   </script>
 </body>
