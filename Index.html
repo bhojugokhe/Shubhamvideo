@@ -204,75 +204,297 @@ button{cursor:pointer}
 </main>
 </div>
 
-<script>
-const pages=["home","text","image","aiimage","characters","effects","templates","voice","history"];
-const historyItems=[];
 
-function showPage(id){
-  pages.forEach(page=>document.getElementById(page).classList.toggle("active",page===id));
-  document.querySelectorAll(".nav").forEach(button=>button.classList.toggle("active",button.dataset.page===id));
+<script>
+const pages = ["home","text","image","aiimage","characters","effects","templates","voice","history"];
+const historyItems = [];
+
+function showPage(id) {
+  pages.forEach(page => {
+    document.getElementById(page).classList.toggle("active", page === id);
+  });
+
+  document.querySelectorAll(".nav").forEach(button => {
+    button.classList.toggle("active", button.dataset.page === id);
+  });
+
   document.getElementById("sidebar").classList.remove("open");
-  window.scrollTo({top:0,behavior:"smooth"});
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
-document.querySelectorAll(".nav").forEach(button=>{
-  button.addEventListener("click",()=>showPage(button.dataset.page));
+
+document.querySelectorAll(".nav").forEach(button => {
+  button.addEventListener("click", () => showPage(button.dataset.page));
 });
 
-function demoGenerate(type){
-  let prompt="";
-  if(type==="text")prompt=document.getElementById("prompt").value.trim();
-  if(type==="image")prompt=document.getElementById("motion").value.trim();
-  if(type==="aiimage")prompt=document.getElementById("imagePrompt").value.trim();
-
-  const output=document.getElementById(type+"Result");
-  if(!prompt){output.innerHTML='<div class="result">पहले अपना prompt लिखिए।</div>';return;}
-
-  const item={type,prompt,time:new Date().toLocaleString()};
-  historyItems.unshift(item);
-  output.innerHTML='<div class="result"><strong>Demo request तैयार है।</strong><br>आपका prompt दर्ज हो गया है। असली AI generation अभी API connection के बाद चालू होगा।</div>';
-  renderHistory();
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  }[char]));
 }
 
-function renderHistory(){
-  const list=document.getElementById("historyList");
-  if(!historyItems.length){list.textContent="Your creations will appear here.";return;}
-  list.className="";
-  list.innerHTML=historyItems.map(item=>
-    '<div class="result"><strong>'+escapeHTML(item.type.toUpperCase())+'</strong><br>'+
-    escapeHTML(item.prompt)+'<br><small>'+escapeHTML(item.time)+'</small></div>'
+function wait(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function demoGenerate(type) {
+  const output = document.getElementById(type + "Result");
+
+  let prompt = "";
+
+  if (type === "text") {
+    prompt = document.getElementById("prompt").value.trim();
+  } else if (type === "image") {
+    prompt = document.getElementById("motion").value.trim();
+  } else if (type === "aiimage") {
+    prompt = document.getElementById("imagePrompt").value.trim();
+  }
+
+  if (!prompt) {
+    output.innerHTML = '<div class="result">पहले अपना prompt लिखिए।</div>';
+    return;
+  }
+
+  // Image and AI Image remain demo features for now.
+  if (type !== "text") {
+    historyItems.unshift({
+      type,
+      prompt,
+      time: new Date().toLocaleString()
+    });
+
+    output.innerHTML =
+      '<div class="result">यह फीचर अभी demo mode में है।</div>';
+
+    renderHistory();
+    return;
+  }
+
+  const duration = Number.parseInt(
+    document.getElementById("duration").value, 10
+  );
+
+  const aspectRatio = document.getElementById("ratio")
+    .value.split(" ")[0];
+
+  const style = document.getElementById("style").value;
+  const voice = document.getElementById("voice").value;
+
+  const finalPrompt = prompt + "\nVisual style: " + style + ".";
+
+  if (!Number.isInteger(duration) || duration < 2 || duration > 15) {
+    output.innerHTML =
+      '<div class="result">कृपया 2 से 15 सेकंड की अवधि चुनें।</div>';
+    return;
+  }
+
+  if (finalPrompt.length > 5000) {
+    output.innerHTML =
+      '<div class="result">Prompt 5000 characters से छोटा रखें।</div>';
+    return;
+  }
+
+  const button = document.querySelector("#text .primary");
+  const oldButtonText = button.textContent;
+
+  button.disabled = true;
+  button.textContent = "Generating...";
+  output.innerHTML =
+    '<div class="result">आपकी वीडियो request भेजी जा रही है...</div>';
+
+  try {
+    // Step 1: Send request to Netlify submit function.
+    const submitResponse = await fetch(
+      "/.netlify/functions/submit",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          prompt: finalPrompt,
+          duration: duration,
+          aspect_ratio: aspectRatio
+        })
+      }
+    );
+
+    const submitData = await submitResponse.json();
+
+    if (!submitResponse.ok) {
+      throw new Error(
+        submitData.error || "Video request failed."
+      );
+    }
+
+    const requestId = submitData.request_id;
+
+    if (!requestId) {
+      throw new Error("Request ID नहीं मिला।");
+    }
+
+    output.innerHTML =
+      '<div class="result"><strong>Request submitted!</strong><br>आपकी वीडियो बन रही है। कृपया इंतजार करें...</div>';
+
+    // Step 2: Check video generation status.
+    let videoReady = false;
+
+    for (let attempt = 0; attempt < 100; attempt++) {
+      await wait(3000);
+
+      const checkResponse = await fetch(
+        "/.netlify/functions/check?id=" +
+        encodeURIComponent(requestId)
+      );
+
+      const checkData = await checkResponse.json();
+
+      if (!checkResponse.ok) {
+        throw new Error(
+          checkData.error || "Status check failed."
+        );
+      }
+
+      if (checkData.status === "COMPLETED") {
+        const videoUrl = checkData.video_url;
+
+        if (!videoUrl) {
+          throw new Error("Video URL नहीं मिला।");
+        }
+
+        const safeUrl = new URL(videoUrl);
+
+        if (safeUrl.protocol !== "https:") {
+          throw new Error("Invalid video URL.");
+        }
+
+        output.innerHTML =
+          '<div class="result">' +
+          '<strong>🎉 Your Video Is Ready!</strong><br>' +
+          '<video controls playsinline preload="metadata" ' +
+          'style="width:100%;max-height:400px;margin-top:12px;border-radius:10px;" ' +
+          'src="' + escapeHTML(videoUrl) + '"></video>' +
+          '<p><a href="' + escapeHTML(videoUrl) +
+          '" target="_blank" rel="noopener">Open / Download Video</a></p>' +
+          (voice !== "No voice"
+            ? '<p>Hindi/English spoken voice will be connected separately.</p>'
+            : '') +
+          '</div>';
+
+        historyItems.unshift({
+          type: "text",
+          prompt: prompt,
+          time: new Date().toLocaleString()
+        });
+
+        renderHistory();
+        videoReady = true;
+        break;
+      }
+
+      if (
+        checkData.status === "FAILED" ||
+        checkData.status === "CANCELLED"
+      ) {
+        throw new Error("Video generation failed. Please try again.");
+      }
+
+      output.innerHTML =
+        '<div class="result"><strong>Video processing...</strong><br>Status: ' +
+        escapeHTML(checkData.status || "WAITING") +
+        '<br>कृपया पेज खुला रखें।</div>';
+    }
+
+    if (!videoReady) {
+      throw new Error(
+        "Generation is taking longer than expected. Check your History later."
+      );
+    }
+
+  } catch (error) {
+    console.error(error);
+
+    output.innerHTML =
+      '<div class="result"><strong>Generation Error</strong><br>' +
+      escapeHTML(error.message) +
+      '</div>';
+
+  } finally {
+    button.disabled = false;
+    button.textContent = oldButtonText;
+  }
+}
+
+function renderHistory() {
+  const list = document.getElementById("historyList");
+
+  if (!historyItems.length) {
+    list.textContent = "Your creations will appear here.";
+    return;
+  }
+
+  list.className = "";
+
+  list.innerHTML = historyItems.map(item =>
+    '<div class="result"><strong>' +
+    escapeHTML(item.type.toUpperCase()) +
+    '</strong><br>' +
+    escapeHTML(item.prompt) +
+    '<br><small>' +
+    escapeHTML(item.time) +
+    '</small></div>'
   ).join("");
 }
-function escapeHTML(value){
-  return String(value).replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]));
+
+function previewImage(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const image = document.getElementById("imagePreview");
+  image.src = URL.createObjectURL(file);
+  image.hidden = false;
 }
-function previewImage(event){
-  const file=event.target.files[0];
-  if(!file)return;
-  const image=document.getElementById("imagePreview");
-  image.src=URL.createObjectURL(file);
-  image.hidden=false;
-}
-function selectStyle(style){
-  document.getElementById("styleMessage").textContent="Selected style: "+style+". You can use this style in your video prompt.";
+
+function selectStyle(style) {
+  document.getElementById("styleMessage").textContent =
+    "Selected style: " + style;
+
   showPage("text");
-  document.getElementById("style").value=style==="Fantasy"||style==="Watercolor"?"3D Animation":style;
+
+  document.getElementById("style").value =
+    style === "Fantasy" || style === "Watercolor"
+      ? "3D Animation"
+      : style;
 }
-function useTemplate(prompt){
+
+function useTemplate(prompt) {
   showPage("text");
-  document.getElementById("prompt").value=prompt;
+  document.getElementById("prompt").value = prompt;
 }
-function saveVoice(){
-  const text=document.getElementById("voiceText").value.trim();
-  const output=document.getElementById("voiceResult");
-  if(!text){output.innerHTML='<div class="result">पहले narration लिखिए।</div>';return;}
-  output.innerHTML='<div class="result">Voice script saved in this demo. असली voice audio API जुड़ने के बाद बनेगा।</div>';
+
+function saveVoice() {
+  const text = document.getElementById("voiceText").value.trim();
+  const output = document.getElementById("voiceResult");
+
+  if (!text) {
+    output.innerHTML =
+      '<div class="result">पहले narration लिखिए।</div>';
+    return;
+  }
+
+  output.innerHTML =
+    '<div class="result">Voice script saved in this demo. Actual voice generation will be connected separately.</div>';
 }
-document.getElementById("search").addEventListener("input",event=>{
-  const query=event.target.value.toLowerCase();
-  document.querySelectorAll(".card").forEach(card=>{
-    card.style.display=card.textContent.toLowerCase().includes(query)?"":"none";
+
+document.getElementById("search").addEventListener("input", event => {
+  const query = event.target.value.toLowerCase();
+
+  document.querySelectorAll(".card").forEach(card => {
+    card.style.display =
+      card.textContent.toLowerCase().includes(query) ? "" : "none";
   });
 });
 </script>
-</body>
-</html>
