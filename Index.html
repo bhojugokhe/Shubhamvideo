@@ -242,14 +242,13 @@ function wait(ms) {
 
 async function demoGenerate(type) {
   const output = document.getElementById(type + "Result");
-
   let prompt = "";
 
   if (type === "text") {
     prompt = document.getElementById("prompt").value.trim();
   } else if (type === "image") {
     prompt = document.getElementById("motion").value.trim();
-  } else if (type === "aiimage") {
+  } else {
     prompt = document.getElementById("imagePrompt").value.trim();
   }
 
@@ -258,130 +257,96 @@ async function demoGenerate(type) {
     return;
   }
 
-  // Image and AI Image remain demo features for now.
   if (type !== "text") {
-    historyItems.unshift({
-      type,
-      prompt,
-      time: new Date().toLocaleString()
-    });
-
     output.innerHTML =
       '<div class="result">यह फीचर अभी demo mode में है।</div>';
-
-    renderHistory();
     return;
   }
 
-  const duration = Number.parseInt(
+  const duration = parseInt(
     document.getElementById("duration").value, 10
   );
 
-  const aspectRatio = document.getElementById("ratio")
-    .value.split(" ")[0];
-
+  const ratio = document.getElementById("ratio").value.split(" ")[0];
   const style = document.getElementById("style").value;
-  const voice = document.getElementById("voice").value;
-
-  const finalPrompt = prompt + "\nVisual style: " + style + ".";
+  const finalPrompt = prompt + ". Visual style: " + style;
 
   if (!Number.isInteger(duration) || duration < 2 || duration > 15) {
     output.innerHTML =
-      '<div class="result">कृपया 2 से 15 सेकंड की अवधि चुनें।</div>';
-    return;
-  }
-
-  if (finalPrompt.length > 5000) {
-    output.innerHTML =
-      '<div class="result">Prompt 5000 characters से छोटा रखें।</div>';
+      '<div class="result">2 से 15 सेकंड चुनें।</div>';
     return;
   }
 
   const button = document.querySelector("#text .primary");
-  const oldButtonText = button.textContent;
+  const oldText = button.textContent;
 
   button.disabled = true;
   button.textContent = "Generating...";
+
   output.innerHTML =
-    '<div class="result">आपकी वीडियो request भेजी जा रही है...</div>';
+    '<div class="result">आपकी वीडियो Request भेजी जा रही है...</div>';
 
   try {
-    // Step 1: Send request to Netlify submit function.
-    const submitResponse = await fetch(
-      "/.netlify/functions/submit",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          prompt: finalPrompt,
-          duration: duration,
-          aspect_ratio: aspectRatio
-        })
-      }
-    );
+    const response = await fetch("/.netlify/functions/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        prompt: finalPrompt,
+        duration: duration,
+        aspect_ratio: ratio
+      })
+    });
 
-    const submitData = await submitResponse.json();
+    const data = await response.json();
 
-    if (!submitResponse.ok) {
-      throw new Error(
-        submitData.error || "Video request failed."
-      );
+    if (!response.ok) {
+      throw new Error(data.error || "Request failed");
     }
 
-    const requestId = submitData.request_id;
-
-    if (!requestId) {
+    if (!data.request_id) {
       throw new Error("Request ID नहीं मिला।");
     }
 
     output.innerHTML =
-      '<div class="result"><strong>Request submitted!</strong><br>आपकी वीडियो बन रही है। कृपया इंतजार करें...</div>';
+      '<div class="result">Request भेज दी गई है। वीडियो बन रही है...</div>';
 
-    // Step 2: Check video generation status.
-    let videoReady = false;
+    let completed = false;
 
-    for (let attempt = 0; attempt < 100; attempt++) {
+    for (let i = 0; i < 100; i++) {
       await wait(3000);
 
       const checkResponse = await fetch(
         "/.netlify/functions/check?id=" +
-        encodeURIComponent(requestId)
+        encodeURIComponent(data.request_id)
       );
 
       const checkData = await checkResponse.json();
 
       if (!checkResponse.ok) {
-        throw new Error(
-          checkData.error || "Status check failed."
-        );
+        throw new Error(checkData.error || "Status check failed");
       }
 
       if (checkData.status === "COMPLETED") {
-        const videoUrl = checkData.video_url;
-
-        if (!videoUrl) {
+        if (!checkData.video_url) {
           throw new Error("Video URL नहीं मिला।");
         }
 
-        const safeUrl = new URL(videoUrl);
+        const videoUrl = new URL(checkData.video_url);
 
-        if (safeUrl.protocol !== "https:") {
-          throw new Error("Invalid video URL.");
+        if (videoUrl.protocol !== "https:") {
+          throw new Error("Invalid video URL");
         }
+
+        const safeUrl = escapeHTML(videoUrl.href);
 
         output.innerHTML =
           '<div class="result">' +
-          '<strong>🎉 Your Video Is Ready!</strong><br>' +
-          '<video controls playsinline preload="metadata" ' +
-          'style="width:100%;max-height:400px;margin-top:12px;border-radius:10px;" ' +
-          'src="' + escapeHTML(videoUrl) + '"></video>' +
-          '<p><a href="' + escapeHTML(videoUrl) +
-          '" target="_blank" rel="noopener">Open / Download Video</a></p>' +
-          (voice !== "No voice"
-            ? '<p>Hindi/English spoken voice will be connected separately.</p>'
-            : '') +
+          '<strong>🎉 Your Video Is Ready!</strong>' +
+          '<video controls playsinline ' +
+          'style="width:100%;margin-top:12px;border-radius:10px" ' +
+          'src="' + safeUrl + '"></video>' +
+          '<p><a href="' + safeUrl +
+          '" target="_blank" rel="noopener">Download Video</a></p>' +
           '</div>';
 
         historyItems.unshift({
@@ -391,40 +356,34 @@ async function demoGenerate(type) {
         });
 
         renderHistory();
-        videoReady = true;
+        completed = true;
         break;
       }
 
-      if (
-        checkData.status === "FAILED" ||
-        checkData.status === "CANCELLED"
-      ) {
-        throw new Error("Video generation failed. Please try again.");
+      if (["FAILED", "CANCELLED"].includes(checkData.status)) {
+        throw new Error("Video generation failed.");
       }
 
       output.innerHTML =
-        '<div class="result"><strong>Video processing...</strong><br>Status: ' +
+        '<div class="result">वीडियो बन रही है... Status: ' +
         escapeHTML(checkData.status || "WAITING") +
-        '<br>कृपया पेज खुला रखें।</div>';
+        '</div>';
     }
 
-    if (!videoReady) {
-      throw new Error(
-        "Generation is taking longer than expected. Check your History later."
-      );
+    if (!completed) {
+      throw new Error("समय अधिक लग रहा है। बाद में फिर Status चेक करें।");
     }
 
   } catch (error) {
     console.error(error);
 
     output.innerHTML =
-      '<div class="result"><strong>Generation Error</strong><br>' +
-      escapeHTML(error.message) +
-      '</div>';
+      '<div class="result"><strong>Error:</strong><br>' +
+      escapeHTML(error.message) + '</div>';
 
   } finally {
     button.disabled = false;
-    button.textContent = oldButtonText;
+    button.textContent = oldText;
   }
 }
 
@@ -440,12 +399,9 @@ function renderHistory() {
 
   list.innerHTML = historyItems.map(item =>
     '<div class="result"><strong>' +
-    escapeHTML(item.type.toUpperCase()) +
-    '</strong><br>' +
-    escapeHTML(item.prompt) +
-    '<br><small>' +
-    escapeHTML(item.time) +
-    '</small></div>'
+    escapeHTML(item.type.toUpperCase()) + '</strong><br>' +
+    escapeHTML(item.prompt) + '<br><small>' +
+    escapeHTML(item.time) + '</small></div>'
   ).join("");
 }
 
@@ -466,8 +422,7 @@ function selectStyle(style) {
 
   document.getElementById("style").value =
     style === "Fantasy" || style === "Watercolor"
-      ? "3D Animation"
-      : style;
+      ? "3D Animation" : style;
 }
 
 function useTemplate(prompt) {
@@ -486,7 +441,7 @@ function saveVoice() {
   }
 
   output.innerHTML =
-    '<div class="result">Voice script saved in this demo. Actual voice generation will be connected separately.</div>';
+    '<div class="result">Voice script saved. Actual voice generation will be connected separately.</div>';
 }
 
 document.getElementById("search").addEventListener("input", event => {
