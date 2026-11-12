@@ -1,455 +1,876 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shubham AI Studio</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
-<style>
-:root{--cream:#fff8f0;--white:#fffdf9;--red:#df2928;--coral:#ff705b;--ink:#29231f;--muted:#897d73;--line:#f0e3d8}
-*{box-sizing:border-box}
-body{margin:0;background:var(--cream);color:var(--ink);font-family:"DM Sans",sans-serif}
-button,input,textarea,select{font:inherit}
-button{cursor:pointer}
-.app{display:flex;min-height:100vh}
-.sidebar{width:225px;background:#fffaf4;border-right:1px solid var(--line);padding:20px 14px;display:flex;flex-direction:column;flex-shrink:0}
-.brand{display:flex;align-items:center;gap:10px;padding:2px 8px 25px}
-.logo{width:46px;height:46px;border-radius:15px;background:linear-gradient(145deg,#ff8068,#c90020);display:grid;place-items:center;color:white;font:800 31px Poppins;box-shadow:0 6px 15px #e52b2630}
-.brand-name{font:800 16px Poppins;line-height:1.15}
-.brand-name span{display:block;color:var(--red)}
-.menu-label{color:#a99a8e;font-size:10px;font-weight:800;letter-spacing:1.3px;padding:12px}
-.nav{width:100%;display:flex;align-items:center;gap:12px;border:0;background:transparent;padding:11px 12px;border-radius:11px;text-align:left;color:#655b53;font-size:13px;font-weight:700;margin:2px 0}
-.nav .ico{width:19px;font-size:16px;text-align:center}
-.nav:hover,.nav.active{background:linear-gradient(100deg,#e52b27,#ff705b);color:white;box-shadow:0 5px 12px #e52b2625}
-.upgrade{margin-top:auto;padding:15px 12px;border-radius:15px;background:linear-gradient(145deg,#fff0d4,#ffe0bd);text-align:center;font-size:12px}
-.upgrade button{border:0;background:var(--red);color:white;padding:8px 16px;border-radius:20px;font-weight:700;margin-top:8px}
-.main{flex:1;min-width:0;padding:19px 24px 45px}
-.topbar{display:flex;align-items:center;gap:12px;margin-bottom:17px}
-.search{flex:1;background:white;border:1px solid var(--line);border-radius:30px;padding:12px 18px;outline:none}
-.round{width:41px;height:41px;border:1px solid var(--line);border-radius:50%;background:white}
-.hero{min-height:205px;border-radius:19px;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;background:linear-gradient(110deg,#ffd8c5,#fff0dc 55%,#f8c5a7);margin-bottom:17px}
-.hero-art{display:grid;place-items:center;font-size:85px;min-height:205px;background:radial-gradient(ellipse at 50% 70%,#fff1cb,#ffc9a8 65%,transparent 66%)}
-.hero-copy{padding:25px 22px;align-self:center}
-.hero-copy h1{font:800 clamp(22px,3vw,35px) Poppins;margin:0;line-height:1.2}
-.hero-copy h1 span{color:var(--red)}
-.tagline{font:italic 600 18px Poppins;margin:5px 0 10px}
-.hero-copy p{font-size:12px;color:#69564c;margin:0 0 13px}
-.primary{background:linear-gradient(100deg,#d91e25,#ff6953);border:0;border-radius:25px;color:white;font-weight:800;padding:11px 21px;box-shadow:0 5px 14px #d92b2730}
-.quick-tools{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:9px;margin:17px 0 24px}
-.tool{border:1px solid var(--line);border-radius:13px;padding:13px 4px;background:white;text-align:center;font-weight:800;font-size:12px;color:#55483f}
-.tool span{display:block;font-size:22px;margin-bottom:5px}
-.tool:hover{transform:translateY(-2px);border-color:#ff9a83}
-.section-head{display:flex;justify-content:space-between;align-items:center;margin:22px 0 12px}
-.section-head h2{font:700 19px Poppins;margin:0}
-.section-head button{border:0;background:transparent;color:var(--red);font-size:12px;font-weight:800}
-.gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-.card{background:white;border:1px solid var(--line);border-radius:15px;overflow:hidden}
-.thumb{height:165px;display:grid;place-items:center;font-size:75px;position:relative}
-.krishna{background:linear-gradient(130deg,#b8e5b0,#fff0a7,#f5c38d)}
-.girl{background:linear-gradient(130deg,#ffb5a1,#ffdfb1,#9bd8f1)}
-.lion{background:linear-gradient(130deg,#ffcf76,#e87939,#68422c)}
-.panda{background:linear-gradient(130deg,#b8df9b,#d8f0c9,#8ebc73)}
-.fox{background:linear-gradient(130deg,#ffd8a4,#f5a06b,#b4d9ef)}
-.duration{position:absolute;bottom:9px;left:10px;background:#211b19c9;color:white;padding:4px 7px;border-radius:6px;font-size:10px}
-.card-info{padding:10px 12px;display:flex;justify-content:space-between;align-items:center;gap:8px}
-.card-info strong{font-size:12px}
-.tag{font-size:10px;color:#c74737;background:#fff0e9;padding:4px 7px;border-radius:9px}
-.page{display:none}
-.page.active{display:block}
-.panel{background:white;border:1px solid var(--line);border-radius:17px;padding:20px;margin-top:16px}
-.panel h2{font:700 20px Poppins;margin:0 0 5px}
-.sub{font-size:13px;color:var(--muted);margin:0 0 18px}
-.field{margin:15px 0}
-.field label{display:block;font-size:13px;font-weight:700;margin-bottom:7px}
-.field textarea,.field input,.field select{width:100%;border:1px solid var(--line);border-radius:11px;padding:12px;background:#fffdfa;outline:none}
-.field textarea{min-height:115px;resize:vertical}
-.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--coral)}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:13px}
-.upload{border:2px dashed #efc9b8;border-radius:13px;padding:25px;text-align:center;background:#fffaf5;color:var(--muted)}
-.preview{max-width:100%;max-height:190px;display:block;margin:12px auto;border-radius:10px}
-.notice{background:#fff5e8;color:#87623d;border-radius:10px;padding:11px;font-size:12px;line-height:1.5;margin-top:14px}
-.result{border:1px solid var(--line);background:#fffaf5;border-radius:12px;padding:14px;margin-top:15px;font-size:13px}
-.empty{text-align:center;padding:35px;color:var(--muted)}
-.mobile-menu{display:none}
-@media(max-width:850px){.sidebar{width:190px}.main{padding:15px}.quick-tools{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:620px){
-.app{display:block}.sidebar{display:none;position:fixed;z-index:10;top:0;bottom:0;left:0;box-shadow:10px 0 30px #0002}
-.sidebar.open{display:flex}.main{padding:12px}.mobile-menu{display:inline-block}
-.hero{grid-template-columns:1fr}.hero-art{min-height:115px;font-size:60px}
-.hero-copy{padding:15px 20px 22px;text-align:center}
-.quick-tools{grid-template-columns:repeat(3,1fr)}.gallery{grid-template-columns:1fr}
-.thumb{height:185px}.two{grid-template-columns:1fr}
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shubham AI Studio</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #fff8f0;
+      --white: #fffdf9;
+      --red: #df2928;
+      --coral: #ff705b;
+      --ink: #29231f;
+      --muted: #897d73;
+      --line: #f0e3d8;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--cream);
+      color: var(--ink);
+      font-family: "DM Sans", sans-serif;
+    }
+    button, input, textarea, select { font: inherit; }
+    button { cursor: pointer; }
+    img { max-width: 100%; }
+    a { color: var(--red); }
+
+    .app { display: flex; min-height: 100vh; }
+    .sidebar {
+      width: 225px;
+      background: #fffaf4;
+      border-right: 1px solid var(--line);
+      padding: 20px 14px;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 2px 8px 25px;
+    }
+    .logo {
+      width: 46px;
+      height: 46px;
+      border-radius: 15px;
+      background: linear-gradient(145deg, #ff8068, #c90020);
+      display: grid;
+      place-items: center;
+      color: white;
+      font: 800 31px Poppins;
+      box-shadow: 0 6px 15px #e52b2630;
+    }
+    .brand-name {
+      font: 800 16px Poppins;
+      line-height: 1.15;
+    }
+    .brand-name span { display: block; color: var(--red); }
+    .menu-label {
+      color: #a99a8e;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.3px;
+      padding: 12px;
+    }
+    .nav {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border: 0;
+      background: transparent;
+      padding: 11px 12px;
+      border-radius: 11px;
+      text-align: left;
+      color: #655b53;
+      font-size: 13px;
+      font-weight: 700;
+      margin: 2px 0;
+    }
+    .nav .ico { width: 19px; font-size: 16px; text-align: center; }
+    .nav:hover, .nav.active {
+      background: linear-gradient(100deg, #e52b27, #ff705b);
+      color: white;
+      box-shadow: 0 5px 12px #e52b2625;
+    }
+    .upgrade {
+      margin-top: auto;
+      padding: 15px 12px;
+      border-radius: 15px;
+      background: linear-gradient(145deg, #fff0d4, #ffe0bd);
+      text-align: center;
+      font-size: 12px;
+    }
+    .upgrade button {
+      border: 0;
+      background: var(--red);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: 700;
+      margin-top: 8px;
+    }
+    .main { flex: 1; min-width: 0; padding: 19px 24px 45px; }
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 17px;
+    }
+    .search {
+      flex: 1;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      padding: 12px 18px;
+      outline: none;
+    }
+    .round {
+      width: 41px;
+      height: 41px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: white;
+    }
+    .hero {
+      min-height: 205px;
+      border-radius: 19px;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: linear-gradient(110deg, #ffd8c5, #fff0dc 55%, #f8c5a7);
+      margin-bottom: 17px;
+    }
+    .hero-art {
+      display: grid;
+      place-items: center;
+      font-size: 85px;
+      min-height: 205px;
+      background: radial-gradient(ellipse at 50% 70%, #fff1cb, #ffc9a8 65%, transparent 66%);
+    }
+    .hero-copy { padding: 25px 22px; align-self: center; }
+    .hero-copy h1 {
+      font: 800 clamp(22px, 3vw, 35px) Poppins;
+      margin: 0;
+      line-height: 1.2;
+    }
+    .hero-copy h1 span { color: var(--red); }
+    .tagline { font: italic 600 18px Poppins; margin: 5px 0 10px; }
+    .hero-copy p { font-size: 12px; color: #69564c; margin: 0 0 13px; }
+    .primary {
+      background: linear-gradient(100deg, #d91e25, #ff6953);
+      border: 0;
+      border-radius: 25px;
+      color: white;
+      font-weight: 800;
+      padding: 11px 21px;
+      box-shadow: 0 5px 14px #d92b2730;
+    }
+    .primary:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+    .quick-tools {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 9px;
+      margin: 17px 0 24px;
+    }
+    .tool {
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      padding: 13px 4px;
+      background: white;
+      text-align: center;
+      font-weight: 800;
+      font-size: 12px;
+      color: #55483f;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .tool span { display: block; font-size: 22px; margin-bottom: 5px; }
+    .tool:hover {
+      transform: translateY(-2px);
+      border-color: #ff9a83;
+    }
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 22px 0 12px;
+    }
+    .section-head h2 { font: 700 19px Poppins; margin: 0; }
+    .section-head button {
+      border: 0;
+      background: transparent;
+      color: var(--red);
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .card {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      overflow: hidden;
+    }
+    .thumb {
+      height: 165px;
+      display: grid;
+      place-items: center;
+      font-size: 75px;
+      position: relative;
+    }
+    .krishna { background: linear-gradient(130deg, #b8e5b0, #fff0a7, #f5c38d); }
+    .girl { background: linear-gradient(130deg, #ffb5a1, #ffdfb1, #9bd8f1); }
+    .lion { background: linear-gradient(130deg, #ffcf76, #e87939, #68422c); }
+    .panda { background: linear-gradient(130deg, #b8df9b, #d8f0c9, #8ebc73); }
+    .fox { background: linear-gradient(130deg, #ffd8a4, #f5a06b, #b4d9ef); }
+    .duration {
+      position: absolute;
+      bottom: 9px;
+      left: 10px;
+      background: #211b19c9;
+      color: white;
+      padding: 4px 7px;
+      border-radius: 6px;
+      font-size: 10px;
+    }
+    .card-info {
+      padding: 10px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-info strong { font-size: 12px; }
+    .tag {
+      font-size: 10px;
+      color: #c74737;
+      background: #fff0e9;
+      padding: 4px 7px;
+      border-radius: 9px;
+    }
+    .page { display: none; }
+    .page.active { display: block; }
+    .panel {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      padding: 20px;
+      margin-top: 16px;
+    }
+    .panel h2 { font: 700 20px Poppins; margin: 0 0 5px; }
+    .sub { font-size: 13px; color: var(--muted); margin: 0 0 18px; }
+    .field { margin: 15px 0; }
+    .field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 7px;
+    }
+    .field textarea, .field input, .field select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      padding: 12px;
+      background: #fffdfa;
+      outline: none;
+    }
+    .field textarea { min-height: 115px; resize: vertical; }
+    .field input:focus, .field textarea:focus, .field select:focus { border-color: var(--coral); }
+    .two { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
+    .upload {
+      border: 2px dashed #efc9b8;
+      border-radius: 13px;
+      padding: 25px;
+      text-align: center;
+      background: #fffaf5;
+      color: var(--muted);
+    }
+    .preview {
+      max-width: 100%;
+      max-height: 190px;
+      display: block;
+      margin: 12px auto;
+      border-radius: 10px;
+    }
+    .notice {
+      background: #fff5e8;
+      color: #87623d;
+      border-radius: 10px;
+      padding: 11px;
+      font-size: 12px;
+      line-height: 1.5;
+      margin-top: 14px;
+    }
+    .result {
+      border: 1px solid var(--line);
+      background: #fffaf5;
+      border-radius: 12px;
+      padding: 14px;
+      margin-top: 15px;
+      font-size: 13px;
+    }
+    .empty { text-align: center; padding: 35px; color: var(--muted); }
+    .mobile-menu { display: none; }
+
+    @media (max-width: 850px) {
+      .sidebar { width: 190px; }
+      .main { padding: 15px; }
+      .quick-tools { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 620px) {
+      .app { display: block; }
+      .sidebar {
+        display: none;
+        position: fixed;
+        z-index: 10;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        box-shadow: 10px 0 30px #0002;
+      }
+      .sidebar.open { display: flex; }
+      .main { padding: 12px; }
+      .mobile-menu { display: inline-block; }
+      .hero { grid-template-columns: 1fr; }
+      .hero-art { min-height: 115px; font-size: 60px; }
+      .hero-copy { padding: 15px 20px 22px; text-align: center; }
+      .quick-tools { grid-template-columns: repeat(3, 1fr); }
+      .gallery { grid-template-columns: 1fr; }
+      .thumb { height: 185px; }
+      .two { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
-<div class="app">
-<aside class="sidebar" id="sidebar">
-<div class="brand"><div class="logo">S</div><div class="brand-name">Shubham<span>AI Studio</span></div></div>
-<div class="menu-label">WORKSPACE</div>
-<button class="nav active" data-page="home"><span class="ico">⌂</span>Home</button>
-<button class="nav" data-page="text"><span class="ico">▶</span>Text to Video</button>
-<button class="nav" data-page="image"><span class="ico">▧</span>Image to Video</button>
-<button class="nav" data-page="aiimage"><span class="ico">✦</span>AI Image</button>
-<button class="nav" data-page="characters"><span class="ico">♛</span>Characters</button>
-<button class="nav" data-page="effects"><span class="ico">✧</span>Effects & Styles</button>
-<button class="nav" data-page="templates"><span class="ico">▦</span>Templates</button>
-<button class="nav" data-page="voice"><span class="ico">🎧</span>AI Voice</button>
-<button class="nav" data-page="history"><span class="ico">◷</span>History</button>
-<div class="upgrade"><div style="font-size:24px">👑</div><strong>Shubham AI Studio</strong><p>Explore creative possibilities</p><button onclick="showPage('text')">Start Creating →</button></div>
-</aside>
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="logo">S</div>
+        <div class="brand-name">Shubham<span>AI Studio</span></div>
+      </div>
+      <div class="menu-label">WORKSPACE</div>
+      <button class="nav active" data-page="home"><span class="ico">⌂</span>Home</button>
+      <button class="nav" data-page="text"><span class="ico">▶</span>Text to Video</button>
+      <button class="nav" data-page="image"><span class="ico">▧</span>Image to Video</button>
+      <button class="nav" data-page="aiimage"><span class="ico">✦</span>AI Image</button>
+      <button class="nav" data-page="characters"><span class="ico">♛</span>Characters</button>
+      <button class="nav" data-page="effects"><span class="ico">✧</span>Effects &amp; Styles</button>
+      <button class="nav" data-page="templates"><span class="ico">▦</span>Templates</button>
+      <button class="nav" data-page="voice"><span class="ico">🎧</span>AI Voice</button>
+      <button class="nav" data-page="history"><span class="ico">◷</span>History</button>
 
-<main class="main">
-<div class="topbar">
-<button class="round mobile-menu" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
-<input class="search" id="search" placeholder="⌕ Search templates, characters...">
-<button class="round" title="Notifications">♧</button><button class="round" title="Profile">👤</button>
-</div>
+      <div class="upgrade">
+        <div style="font-size:24px">👑</div>
+        <strong>Shubham AI Studio</strong>
+        <p>Explore creative possibilities</p>
+        <button type="button" onclick="showPage('text')">Start Creating →</button>
+      </div>
+    </aside>
 
-<section class="page active" id="home">
-<div class="hero">
-<div class="hero-art">👧🏻 🦊</div>
-<div class="hero-copy"><h1>Shubham <span>AI Studio</span></h1><div class="tagline">Ideas into Moving Stories</div><p>Create stunning videos, images and more with the power of AI.</p><button class="primary" onclick="showPage('text')">Start Creating →</button></div>
-</div>
-<div class="quick-tools">
-<button class="tool" onclick="showPage('text')"><span>▶️</span>Text to Video</button>
-<button class="tool" onclick="showPage('image')"><span>🌄</span>Image to Video</button>
-<button class="tool" onclick="showPage('aiimage')"><span>🎨</span>AI Image</button>
-<button class="tool" onclick="showPage('characters')"><span>👑</span>Characters</button>
-<button class="tool" onclick="showPage('effects')"><span>✨</span>Effects</button>
-<button class="tool" onclick="showPage('templates')"><span>▦</span>Templates</button>
-</div>
-<div class="section-head"><h2>🔥 Recommended for You</h2><button onclick="showPage('templates')">View All →</button></div>
-<div class="gallery">
-<article class="card"><div class="thumb krishna">🦚 🧒🏻<span class="duration">▶ 00:20</span></div><div class="card-info"><strong>Bal Krishna Cute Video</strong><span class="tag">Animation</span></div></article>
-<article class="card"><div class="thumb girl">👧🏻 🌸<span class="duration">▶ 00:18</span></div><div class="card-info"><strong>Little Girl Happiness</strong><span class="tag">Kids</span></div></article>
-<article class="card"><div class="thumb lion">🦁 🌅<span class="duration">▶ 00:22</span></div><div class="card-info"><strong>Lion King Style</strong><span class="tag">Wildlife</span></div></article>
-<article class="card"><div class="thumb panda">🐼 🎋<span class="duration">▶ 00:15</span></div><div class="card-info"><strong>Cute Panda</strong><span class="tag">Animals</span></div></article>
-<article class="card"><div class="thumb fox">🦊 👧🏻<span class="duration">▶ 00:20</span></div><div class="card-info"><strong>Fox and Little Girl</strong><span class="tag">Story</span></div></article>
-</div>
-</section>
+    <main class="main">
+      <div class="topbar">
+        <button class="round mobile-menu" type="button" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+        <input class="search" id="search" placeholder="⌕ Search templates, characters...">
+        <button class="round" type="button" title="Notifications">♧</button>
+        <button class="round" type="button" title="Profile">👤</button>
+      </div>
 
-<section class="page" id="text"><div class="panel">
-<h2>🎬 Text to Video</h2><p class="sub">Turn your imagination into a moving story.</p>
-<div class="field"><label>Describe your video</label><textarea id="prompt" placeholder="A little girl and a friendly fox looking at a magical starry sky..."></textarea></div>
-<div class="two">
-<div class="field"><label>Duration</label><select id="duration"><option>5 seconds</option><option>10 seconds</option><option>30 seconds</option></select></div>
-<div class="field"><label>Aspect Ratio</label><select id="ratio"><option>16:9 Landscape</option><option>9:16 Portrait</option><option>1:1 Square</option></select></div>
-</div>
-<div class="two">
-<div class="field"><label>Visual Style</label><select id="style"><option>3D Animation</option><option>Cinematic</option><option>Cartoon</option><option>Realistic</option></select></div>
-<div class="field"><label>Voice</label><select id="voice"><option>No voice</option><option>Hindi voice</option><option>English voice</option></select></div>
-</div>
-<button class="primary" onclick="demoGenerate('text')">Generate Video →</button><div id="textResult"></div>
-<div class="notice">यह अभी demo interface है। असली video generation के लिए सुरक्षित AI API connection अगली coding में जोड़ा जाएगा।</div>
-</div></section>
+      <section class="page active" id="home">
+        <div class="hero">
+          <div class="hero-art">👧🏻 🦊</div>
+          <div class="hero-copy">
+            <h1>Shubham <span>AI Studio</span></h1>
+            <div class="tagline">Ideas into Moving Stories</div>
+            <p>Create stunning videos, images and more with the power of AI.</p>
+            <button class="primary" type="button" onclick="showPage('text')">Create Now →</button>
+          </div>
+        </div>
 
-<section class="page" id="image"><div class="panel">
-<h2>🖼️ Image to Video</h2><p class="sub">Upload an image and describe its motion.</p>
-<div class="upload">Choose your starting image<input type="file" id="imageFile" accept="image/*" onchange="previewImage(event)"><img id="imagePreview" class="preview" hidden></div>
-<div class="field"><label>Motion prompt</label><textarea id="motion" placeholder="Describe how the subject should move..."></textarea></div>
-<button class="primary" onclick="demoGenerate('image')">Create Motion →</button><div id="imageResult"></div>
-<div class="notice">Image preview works in this version. AI video generation will be connected separately.</div>
-</div></section>
+        <div class="quick-tools">
+          <button class="tool" type="button" onclick="showPage('text')"><span>▶️</span>Text to Video</button>
+          <button class="tool" type="button" onclick="showPage('image')"><span>🌄</span>Image to Video</button>
+          <button class="tool" type="button" onclick="showPage('aiimage')"><span>🎨</span>AI Image</button>
+          <button class="tool" type="button" onclick="showPage('characters')"><span>👑</span>Characters</button>
+          <button class="tool" type="button" onclick="showPage('effects')"><span>✨</span>Effects</button>
+          <button class="tool" type="button" onclick="showPage('templates')"><span>▦</span>Templates</button>
+        </div>
 
-<section class="page" id="aiimage"><div class="panel">
-<h2>🎨 AI Image</h2><p class="sub">Describe an image you want to create.</p>
-<div class="field"><label>Image prompt</label><textarea id="imagePrompt" placeholder="A beautiful magical forest with a little fox..."></textarea></div>
-<button class="primary" onclick="demoGenerate('aiimage')">Generate Image →</button><div id="aiimageResult"></div>
-<div class="notice">AI image API will be connected in a later step.</div>
-</div></section>
+        <div class="section-head">
+          <h2>🔥 Recommended for You</h2>
+          <button type="button" onclick="showPage('templates')">View All →</button>
+        </div>
 
-<section class="page" id="characters"><div class="panel">
-<h2>👑 Characters</h2><p class="sub">Choose a character idea for your next story.</p>
-<div class="gallery">
-<div class="card"><div class="thumb girl">👧🏻</div><div class="card-info"><strong>Little Girl</strong><span class="tag">Kids</span></div></div>
-<div class="card"><div class="thumb fox">🦊</div><div class="card-info"><strong>Friendly Fox</strong><span class="tag">Story</span></div></div>
-<div class="card"><div class="thumb panda">🐼</div><div class="card-info"><strong>Cute Panda</strong><span class="tag">Animal</span></div></div>
-<div class="card"><div class="thumb krishna">🦚</div><div class="card-info"><strong>Bal Krishna</strong><span class="tag">Animation</span></div></div>
-</div></div></section>
+        <div class="gallery">
+          <article class="card">
+            <div class="thumb krishna">🦚 🧒🏻<span class="duration">▶ 00:20</span></div>
+            <div class="card-info"><strong>Bal Krishna Cute Video</strong><span class="tag">Animation</span></div>
+          </article>
+          <article class="card">
+            <div class="thumb girl">👧🏻 🌸<span class="duration">▶ 00:18</span></div>
+            <div class="card-info"><strong>Little Girl Happiness</strong><span class="tag">Kids</span></div>
+          </article>
+          <article class="card">
+            <div class="thumb lion">🦁 🌅<span class="duration">▶ 00:22</span></div>
+            <div class="card-info"><strong>Lion King Style</strong><span class="tag">Wildlife</span></div>
+          </article>
+          <article class="card">
+            <div class="thumb panda">🐼 🎋<span class="duration">▶ 00:15</span></div>
+            <div class="card-info"><strong>Cute Panda</strong><span class="tag">Animals</span></div>
+          </article>
+          <article class="card">
+            <div class="thumb fox">🦊 👧🏻<span class="duration">▶ 00:20</span></div>
+            <div class="card-info"><strong>Fox and Little Girl</strong><span class="tag">Story</span></div>
+          </article>
+        </div>
+      </section>
 
-<section class="page" id="effects"><div class="panel">
-<h2>✨ Effects & Styles</h2><p class="sub">Select a visual direction for your project.</p>
-<div class="quick-tools">
-<button class="tool" onclick="selectStyle('3D Animation')"><span>🧸</span>3D Animation</button>
-<button class="tool" onclick="selectStyle('Cinematic')"><span>🎥</span>Cinematic</button>
-<button class="tool" onclick="selectStyle('Fantasy')"><span>🪄</span>Fantasy</button>
-<button class="tool" onclick="selectStyle('Watercolor')"><span>🎨</span>Watercolor</button>
-<button class="tool" onclick="selectStyle('Cartoon')"><span>🐻</span>Cartoon</button>
-<button class="tool" onclick="selectStyle('Realistic')"><span>🌄</span>Realistic</button>
-</div><p id="styleMessage" class="result">Choose a style to use it in your prompt.</p>
-</div></section>
+      <section class="page" id="text">
+        <div class="panel">
+          <h2>🎬 Text to Video</h2>
+          <p class="sub">Turn your imagination into a moving story.</p>
 
-<section class="page" id="templates"><div class="panel">
-<h2>▦ Templates</h2><p class="sub">Story ideas to get you started.</p>
-<div class="gallery">
-<div class="card"><div class="thumb fox">🦊 👧🏻</div><div class="card-info"><strong>Fox and Little Girl</strong><button onclick="useTemplate('A little girl and a friendly fox discover a magical sky full of stars.')">Use idea</button></div></div>
-<div class="card"><div class="thumb krishna">🦚 🧒🏻</div><div class="card-info"><strong>Bal Krishna Story</strong><button onclick="useTemplate('A beautiful child-friendly animated story about Bal Krishna.')">Use idea</button></div></div>
-<div class="card"><div class="thumb panda">🐼 🎋</div><div class="card-info"><strong>Panda Adventure</strong><button onclick="useTemplate('A cute panda explores a colourful bamboo forest.')">Use idea</button></div></div>
-<div class="card"><div class="thumb lion">🦁 🌅</div><div class="card-info"><strong>Lion Adventure</strong><button onclick="useTemplate('A friendly lion goes on a magical jungle adventure.')">Use idea</button></div></div>
-</div></div></section>
+          <div class="field">
+            <label>Describe your video</label>
+            <textarea id="prompt" placeholder="A little girl and a friendly fox looking at a magical starry sky..."></textarea>
+          </div>
 
-<section class="page" id="voice"><div class="panel">
-<h2>🎧 AI Voice</h2><p class="sub">Prepare narration for your story.</p>
-<div class="field"><label>Your narration</label><textarea id="voiceText" placeholder="अपनी कहानी की आवाज़ यहाँ लिखें..."></textarea></div>
-<div class="field"><label>Language</label><select id="voiceLanguage"><option>Hindi</option><option>English</option><option>Marathi</option></select></div>
-<button class="primary" onclick="saveVoice()">Save Voice Script</button><div id="voiceResult"></div>
-<div class="notice">Voice generation will be enabled after connecting a supported voice API.</div>
-</div></section>
+          <div class="two">
+            <div class="field">
+              <label>Duration</label>
+              <select id="duration">
+                <option value="5">5 seconds</option>
+                <option value="10">10 seconds</option>
+                <option value="30">30 seconds</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Aspect Ratio</label>
+              <select id="ratio">
+                <option value="16:9">16:9 Landscape</option>
+                <option value="9:16">9:16 Portrait</option>
+                <option value="1:1">1:1 Square</option>
+              </select>
+            </div>
+          </div>
 
-<section class="page" id="history"><div class="panel">
-<h2>◷ My Creations / History</h2><p class="sub">Your saved demo requests appear here.</p>
-<div id="historyList" class="empty">Your creations will appear here.</div>
-</div></section>
-</main>
-</div>
+          <div class="two">
+            <div class="field">
+              <label>Visual Style</label>
+              <select id="style">
+                <option>3D Animation</option>
+                <option>Cinematic</option>
+                <option>Cartoon</option>
+                <option>Realistic</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Voice</label>
+              <select id="voice">
+                <option>No voice</option>
+                <option>Hindi voice</option>
+                <option>English voice</option>
+              </select>
+            </div>
+          </div>
 
+          <button class="primary" type="button" onclick="demoGenerate('text')">Generate Video →</button>
+          <div id="textResult"></div>
+          <div class="notice">यह अभी demo interface है। असली video generation के लिए सुरक्षित AI API connection आगे जोड़ दिया जाएगा।</div>
+        </div>
+      </section>
 
-<script>
-const pages = ["home","text","image","aiimage","characters","effects","templates","voice","history"];
-const historyItems = [];
+      <section class="page" id="image">
+        <div class="panel">
+          <h2>🖼️ Image to Video</h2>
+          <p class="sub">Upload an image and describe its motion.</p>
 
-function showPage(id) {
-  pages.forEach(page => {
-    document.getElementById(page).classList.toggle("active", page === id);
-  });
+          <div class="upload">
+            Choose your starting image
+            <input type="file" id="imageFile" accept="image/*" onchange="previewImage(event)">
+            <img id="imagePreview" class="preview" hidden>
+          </div>
 
-  document.querySelectorAll(".nav").forEach(button => {
-    button.classList.toggle("active", button.dataset.page === id);
-  });
+          <div class="field">
+            <label>Motion prompt</label>
+            <textarea id="motion" placeholder="Describe how the subject should move..."></textarea>
+          </div>
 
-  document.getElementById("sidebar").classList.remove("open");
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
+          <button class="primary" type="button" onclick="demoGenerate('image')">Create Motion →</button>
+          <div id="imageResult"></div>
+          <div class="notice">Image preview works in this version. AI video generation will be connected separately.</div>
+        </div>
+      </section>
 
-document.querySelectorAll(".nav").forEach(button => {
-  button.addEventListener("click", () => showPage(button.dataset.page));
-});
+      <section class="page" id="aiimage">
+        <div class="panel">
+          <h2>🎨 AI Image</h2>
+          <p class="sub">Describe an image you want to create.</p>
 
-function escapeHTML(value) {
-  return String(value).replace(/[&<>"']/g, char => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
-  }[char]));
-}
+          <div class="field">
+            <label>Image prompt</label>
+            <textarea id="imagePrompt" placeholder="A beautiful magical forest with a little fox..."></textarea>
+          </div>
 
-function wait(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
+          <button class="primary" type="button" onclick="demoGenerate('aiimage')">Generate Image →</button>
+          <div id="aiimageResult"></div>
+          <div class="notice">AI image API will be connected in a later step.</div>
+        </div>
+      </section>
 
-async function demoGenerate(type) {
-  const output = document.getElementById(type + "Result");
-  let prompt = "";
+      <section class="page" id="characters">
+        <div class="panel">
+          <h2>👑 Characters</h2>
+          <p class="sub">Choose a character idea for your next story.</p>
+          <div class="gallery">
+            <div class="card"><div class="thumb girl">👧🏻</div><div class="card-info"><strong>Little Girl</strong><span class="tag">Kids</span></div></div>
+            <div class="card"><div class="thumb fox">🦊</div><div class="card-info"><strong>Friendly Fox</strong><span class="tag">Story</span></div></div>
+            <div class="card"><div class="thumb panda">🐼</div><div class="card-info"><strong>Cute Panda</strong><span class="tag">Animal</span></div></div>
+            <div class="card"><div class="thumb krishna">🦚</div><div class="card-info"><strong>Bal Krishna</strong><span class="tag">Animation</span></div></div>
+          </div>
+        </div>
+      </section>
 
-  if (type === "text") {
-    prompt = document.getElementById("prompt").value.trim();
-  } else if (type === "image") {
-    prompt = document.getElementById("motion").value.trim();
-  } else {
-    prompt = document.getElementById("imagePrompt").value.trim();
-  }
+      <section class="page" id="effects">
+        <div class="panel">
+          <h2>✨ Effects &amp; Styles</h2>
+          <p class="sub">Select a visual direction for your project.</p>
+          <div class="quick-tools">
+            <button class="tool" type="button" onclick="selectStyle('3D Animation')"><span>🧸</span>3D Animation</button>
+            <button class="tool" type="button" onclick="selectStyle('Cinematic')"><span>🎥</span>Cinematic</button>
+            <button class="tool" type="button" onclick="selectStyle('Fantasy')"><span>🪄</span>Fantasy</button>
+            <button class="tool" type="button" onclick="selectStyle('Watercolor')"><span>🎨</span>Watercolor</button>
+            <button class="tool" type="button" onclick="selectStyle('Cartoon')"><span>🐻</span>Cartoon</button>
+            <button class="tool" type="button" onclick="selectStyle('Realistic')"><span>🌄</span>Realistic</button>
+          </div>
+          <p id="styleMessage" class="result">Choose a style to use it in your prompt.</p>
+        </div>
+      </section>
 
-  if (!prompt) {
-    output.innerHTML = '<div class="result">पहले अपना prompt लिखिए।</div>';
-    return;
-  }
+      <section class="page" id="templates">
+        <div class="panel">
+          <h2>▦ Templates</h2>
+          <p class="sub">Story ideas to get you started.</p>
+          <div class="gallery">
+            <div class="card"><div class="thumb fox">🦊 👧🏻</div><div class="card-info"><strong>Fox and Little Girl</strong><button type="button" class="primary" style="padding:8px 12px;border-radius:12px;" onclick="useTemplate('A little girl and a friendly fox discover a magical hidden forest at night.')">Use it</button></div></div>
+            <div class="card"><div class="thumb krishna">🦚 🧒🏻</div><div class="card-info"><strong>Bal Krishna Story</strong><button type="button" class="primary" style="padding:8px 12px;border-radius:12px;" onclick="useTemplate('A beautiful child-friendly animated story about Bal Krishna playing with peacocks and friends.')">Use it</button></div></div>
+            <div class="card"><div class="thumb panda">🐼 🎋</div><div class="card-info"><strong>Panda Adventure</strong><button type="button" class="primary" style="padding:8px 12px;border-radius:12px;" onclick="useTemplate('A cute panda explores a colourful bamboo forest.')">Use it</button></div></div>
+            <div class="card"><div class="thumb lion">🦁 🌅</div><div class="card-info"><strong>Lion Adventure</strong><button type="button" class="primary" style="padding:8px 12px;border-radius:12px;" onclick="useTemplate('A friendly lion goes on a magical jungle adventure.')">Use it</button></div></div>
+          </div>
+        </div>
+      </section>
 
-  if (type !== "text") {
-    output.innerHTML =
-      '<div class="result">यह फीचर अभी demo mode में है।</div>';
-    return;
-  }
+      <section class="page" id="voice">
+        <div class="panel">
+          <h2>🎧 AI Voice</h2>
+          <p class="sub">Prepare narration for your story.</p>
 
-  const duration = parseInt(
-    document.getElementById("duration").value, 10
-  );
+          <div class="field">
+            <label>Your narration</label>
+            <textarea id="voiceText" placeholder="अपनी कहानी की आवाज़ यहाँ लिखें..."></textarea>
+          </div>
 
-  const ratio = document.getElementById("ratio").value.split(" ")[0];
-  const style = document.getElementById("style").value;
-  const finalPrompt = prompt + ". Visual style: " + style;
+          <div class="field">
+            <label>Language</label>
+            <select id="voiceLanguage">
+              <option>Hindi</option>
+              <option>English</option>
+              <option>Marathi</option>
+            </select>
+          </div>
 
-  if (!Number.isInteger(duration) || duration < 2 || duration > 15) {
-    output.innerHTML =
-      '<div class="result">2 से 15 सेकंड चुनें।</div>';
-    return;
-  }
+          <button class="primary" type="button" onclick="saveVoice()">Save Voice Script</button>
+          <div id="voiceResult"></div>
+          <div class="notice">Voice generation will be enabled after connecting a supported voice API.</div>
+        </div>
+      </section>
 
-  const button = document.querySelector("#text .primary");
-  const oldText = button.textContent;
+      <section class="page" id="history">
+        <div class="panel">
+          <h2>◷ My Creations / History</h2>
+          <p class="sub">Your saved demo requests appear here.</p>
+          <div id="historyList" class="empty">Your creations will appear here.</div>
+        </div>
+      </section>
+    </main>
+  </div>
 
-  button.disabled = true;
-  button.textContent = "Generating...";
+  <script>
+    const pages = ["home", "text", "image", "aiimage", "characters", "effects", "templates", "voice", "history"];
+    let historyItems = [];
 
-  output.innerHTML =
-    '<div class="result">आपकी वीडियो Request भेजी जा रही है...</div>';
-
-  try {
-    const response = await fetch("/.netlify/functions/submit", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        prompt: finalPrompt,
-        duration: duration,
-        aspect_ratio: ratio
-      })
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.error || "Request failed");
+    try {
+      const saved = localStorage.getItem("shubhamHistory");
+      historyItems = saved ? JSON.parse(saved) : [];
+    } catch (error) {
+      historyItems = [];
     }
 
-    if (!data.request_id) {
-      throw new Error("Request ID नहीं मिला।");
+    function showPage(id) {
+      const sidebar = document.getElementById("sidebar");
+      const pageMap = pages.map(page => document.getElementById(page)).filter(Boolean);
+      pageMap.forEach(page => page.classList.toggle("active", page.id === id));
+
+      document.querySelectorAll(".nav").forEach(button => {
+        button.classList.toggle("active", button.dataset.page === id);
+      });
+
+      if (sidebar) sidebar.classList.remove("open");
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
-    output.innerHTML =
-      '<div class="result">Request भेज दी गई है। वीडियो बन रही है...</div>';
+    function escapeHTML(value) {
+      return String(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      }[char]));
+    }
 
-    let completed = false;
+    function wait(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
 
-    for (let i = 0; i < 100; i++) {
-      await wait(3000);
+    function persistHistory() {
+      try {
+        localStorage.setItem("shubhamHistory", JSON.stringify(historyItems));
+      } catch (error) {
+        console.warn("History could not be saved:", error);
+      }
+    }
 
-      const checkResponse = await fetch(
-        "/.netlify/functions/check?id=" +
-        encodeURIComponent(data.request_id)
-      );
+    function renderHistory() {
+      const list = document.getElementById("historyList");
+      if (!list) return;
 
-      const checkData = await checkResponse.json();
-
-      if (!checkResponse.ok) {
-        throw new Error(checkData.error || "Status check failed");
+      if (!historyItems.length) {
+        list.textContent = "Your creations will appear here.";
+        list.className = "empty";
+        return;
       }
 
-      if (checkData.status === "COMPLETED") {
-        if (!checkData.video_url) {
-          throw new Error("Video URL नहीं मिला।");
-        }
+      list.className = "";
+      list.innerHTML = historyItems.map(item => (
+        '<div class="result"><strong>' +
+        escapeHTML((item.type || "GEN").toUpperCase()) + '</strong><br>' +
+        escapeHTML(item.prompt || "Untitled prompt") + '<br><small>' +
+        escapeHTML(item.time || "Just now") + '</small></div>'
+      )).join("");
+    }
 
-        const videoUrl = new URL(checkData.video_url);
+    async function demoGenerate(type) {
+      const output = document.getElementById(type + "Result");
+      if (!output) return;
 
-        if (videoUrl.protocol !== "https:") {
-          throw new Error("Invalid video URL");
-        }
+      let prompt = "";
+      if (type === "text") prompt = document.getElementById("prompt")?.value.trim() || "";
+      else if (type === "image") prompt = document.getElementById("motion")?.value.trim() || "";
+      else prompt = document.getElementById("imagePrompt")?.value.trim() || "";
 
-        const safeUrl = escapeHTML(videoUrl.href);
+      if (!prompt) {
+        output.innerHTML = '<div class="result">पहले अपना prompt लिखिए।</div>';
+        return;
+      }
 
-        output.innerHTML =
-          '<div class="result">' +
-          '<strong>🎉 Your Video Is Ready!</strong>' +
-          '<video controls playsinline ' +
-          'style="width:100%;margin-top:12px;border-radius:10px" ' +
-          'src="' + safeUrl + '"></video>' +
-          '<p><a href="' + safeUrl +
-          '" target="_blank" rel="noopener">Download Video</a></p>' +
-          '</div>';
+      if (type !== "text") {
+        output.innerHTML = '<div class="result">यह फीचर अभी demo mode में है।</div>';
+        return;
+      }
 
-        historyItems.unshift({
-          type: "text",
-          prompt: prompt,
-          time: new Date().toLocaleString()
+      const durationInput = document.getElementById("duration");
+      const ratioInput = document.getElementById("ratio");
+      const styleInput = document.getElementById("style");
+
+      const duration = Number.parseInt(durationInput?.value || "5", 10);
+      const ratio = (ratioInput?.value || "16:9").split(" ")[0];
+      const style = styleInput?.value || "3D Animation";
+      const finalPrompt = prompt + ". Visual style: " + style;
+
+      if (!Number.isInteger(duration) || duration < 2 || duration > 15) {
+        output.innerHTML = '<div class="result">2 से 15 सेकंड चुनें।</div>';
+        return;
+      }
+
+      const button = document.querySelector("#text .primary");
+      const oldText = button ? button.textContent : "Generate Video →";
+
+      if (button) {
+        button.disabled = true;
+        button.textContent = "Generating...";
+      }
+
+      output.innerHTML = '<div class="result">आपकी वीडियो Request भेजी जा रही है...</div>';
+
+      try {
+        const response = await fetch("/.netlify/functions/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            prompt: finalPrompt,
+            duration,
+            aspect_ratio: ratio
+          })
         });
 
-        renderHistory();
-        completed = true;
-        break;
-      }
+        let data = {};
+        try {
+          data = await response.json();
+        } catch (error) {
+          data = {};
+        }
 
-      if (["FAILED", "CANCELLED"].includes(checkData.status)) {
-        throw new Error("Video generation failed.");
-      }
+        if (!response.ok) {
+          throw new Error(data.error || "Request failed");
+        }
 
-      output.innerHTML =
-        '<div class="result">वीडियो बन रही है... Status: ' +
-        escapeHTML(checkData.status || "WAITING") +
-        '</div>';
+        if (!data.request_id) {
+          throw new Error("Request ID नहीं मिला।");
+        }
+
+        output.innerHTML = '<div class="result">Request भेज दी गई है। वीडियो बन रही है...</div>';
+
+        let completed = false;
+        for (let i = 0; i < 100; i++) {
+          await wait(3000);
+
+          const checkResponse = await fetch("/.netlify/functions/check?id=" + encodeURIComponent(data.request_id));
+          let checkData = {};
+          try {
+            checkData = await checkResponse.json();
+          } catch (error) {
+            checkData = {};
+          }
+
+          if (!checkResponse.ok) {
+            throw new Error(checkData.error || "Status check failed");
+          }
+
+          if (checkData.status === "COMPLETED") {
+            if (!checkData.video_url) {
+              throw new Error("Video URL नहीं मिला।");
+            }
+
+            const videoUrl = new URL(checkData.video_url);
+            if (videoUrl.protocol !== "https:") {
+              throw new Error("Invalid video URL");
+            }
+
+            const safeUrl = escapeHTML(videoUrl.href);
+            output.innerHTML = (
+              '<div class="result">' +
+              '<strong>🎉 Your Video Is Ready!</strong>' +
+              '<video controls playsinline ' +
+              'style="width:100%;margin-top:12px;border-radius:10px" ' +
+              'src="' + safeUrl + '"></video>' +
+              '<p><a href="' + safeUrl + '" target="_blank" rel="noopener">Download Video</a></p>' +
+              '</div>'
+            );
+
+            historyItems.unshift({
+              type: "text",
+              prompt,
+              time: new Date().toLocaleString()
+            });
+            persistHistory();
+            renderHistory();
+            completed = true;
+            break;
+          }
+
+          if (["FAILED", "CANCELLED"].includes(checkData.status)) {
+            throw new Error("Video generation failed.");
+          }
+
+          output.innerHTML = '<div class="result">वीडियो बन रही है... Status: ' + escapeHTML(checkData.status || "WAITING") + '</div>';
+        }
+
+        if (!completed) {
+          throw new Error("समय अधिक लग रहा है। बाद में फिर Status चेक करें।");
+        }
+      } catch (error) {
+        console.error(error);
+        output.innerHTML = '<div class="result"><strong>Error:</strong><br>' + escapeHTML(error.message || "Something went wrong") + '</div>';
+      } finally {
+        if (button) {
+          button.disabled = false;
+          button.textContent = oldText;
+        }
+      }
     }
 
-    if (!completed) {
-      throw new Error("समय अधिक लग रहा है। बाद में फिर Status चेक करें।");
+    function previewImage(event) {
+      const file = event.target.files?.[0];
+      if (!file) return;
+
+      const image = document.getElementById("imagePreview");
+      if (!image) return;
+      image.src = URL.createObjectURL(file);
+      image.hidden = false;
     }
 
-  } catch (error) {
-    console.error(error);
+    function selectStyle(style) {
+      const styleMessage = document.getElementById("styleMessage");
+      if (styleMessage) {
+        styleMessage.textContent = "Selected style: " + style;
+      }
 
-    output.innerHTML =
-      '<div class="result"><strong>Error:</strong><br>' +
-      escapeHTML(error.message) + '</div>';
+      showPage("text");
 
-  } finally {
-    button.disabled = false;
-    button.textContent = oldText;
-  }
-}
+      const styleField = document.getElementById("style");
+      if (!styleField) return;
 
-function renderHistory() {
-  const list = document.getElementById("historyList");
+      const validStyles = ["3D Animation", "Cinematic", "Cartoon", "Realistic"];
+      const fallbackStyles = ["Fantasy", "Watercolor"];
+      styleField.value = validStyles.includes(style) ? style : (fallbackStyles.includes(style) ? "3D Animation" : style);
+    }
 
-  if (!historyItems.length) {
-    list.textContent = "Your creations will appear here.";
-    return;
-  }
+    function useTemplate(prompt) {
+      showPage("text");
+      const textArea = document.getElementById("prompt");
+      if (textArea) textArea.value = prompt;
+    }
 
-  list.className = "";
+    function saveVoice() {
+      const text = document.getElementById("voiceText")?.value.trim() || "";
+      const output = document.getElementById("voiceResult");
+      if (!text) {
+        if (output) output.innerHTML = '<div class="result">पहले narration लिखिए।</div>';
+        return;
+      }
 
-  list.innerHTML = historyItems.map(item =>
-    '<div class="result"><strong>' +
-    escapeHTML(item.type.toUpperCase()) + '</strong><br>' +
-    escapeHTML(item.prompt) + '<br><small>' +
-    escapeHTML(item.time) + '</small></div>'
-  ).join("");
-}
+      const language = document.getElementById("voiceLanguage")?.value || "Hindi";
+      historyItems.unshift({
+        type: "voice",
+        prompt: text + " [" + language + "]",
+        time: new Date().toLocaleString()
+      });
+      persistHistory();
+      renderHistory();
 
-function previewImage(event) {
-  const file = event.target.files[0];
-  if (!file) return;
+      if (output) {
+        output.innerHTML = '<div class="result">Voice script saved. Actual voice generation will be connected separately.</div>';
+      }
+    }
 
-  const image = document.getElementById("imagePreview");
-  image.src = URL.createObjectURL(file);
-  image.hidden = false;
-}
+    document.querySelectorAll(".nav").forEach(button => {
+      button.addEventListener("click", () => showPage(button.dataset.page));
+    });
 
-function selectStyle(style) {
-  document.getElementById("styleMessage").textContent =
-    "Selected style: " + style;
+    const searchBox = document.getElementById("search");
+    if (searchBox) {
+      searchBox.addEventListener("input", event => {
+        const query = event.target.value.toLowerCase();
+        document.querySelectorAll(".card").forEach(card => {
+          card.style.display = card.textContent.toLowerCase().includes(query) ? "" : "none";
+        });
+      });
+    }
 
-  showPage("text");
-
-  document.getElementById("style").value =
-    style === "Fantasy" || style === "Watercolor"
-      ? "3D Animation" : style;
-}
-
-function useTemplate(prompt) {
-  showPage("text");
-  document.getElementById("prompt").value = prompt;
-}
-
-function saveVoice() {
-  const text = document.getElementById("voiceText").value.trim();
-  const output = document.getElementById("voiceResult");
-
-  if (!text) {
-    output.innerHTML =
-      '<div class="result">पहले narration लिखिए।</div>';
-    return;
-  }
-
-  output.innerHTML =
-    '<div class="result">Voice script saved. Actual voice generation will be connected separately.</div>';
-}
-
-document.getElementById("search").addEventListener("input", event => {
-  const query = event.target.value.toLowerCase();
-
-  document.querySelectorAll(".card").forEach(card => {
-    card.style.display =
-      card.textContent.toLowerCase().includes(query) ? "" : "none";
-  });
-});
-</script>
+    renderHistory();
+  </script>
+</body>
+</html>
